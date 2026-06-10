@@ -623,12 +623,24 @@ function triggerDebrief(act){
 // ── Context ──
 function buildContext(){
   if(!activities.length) return '';
-  const now=new Date(),weekAgo=new Date(now-7*24*60*60*1000);
+  const now=new Date();
+  const todayStr=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const todayISO=now.toISOString().split('T')[0];
+  const dayOfWeek=now.toLocaleDateString('en-US',{weekday:'long'});
+  const weekAgo=new Date(now-7*24*60*60*1000);
   const week=activities.filter(a=>new Date(a.date)>=weekAgo);
   const sportCounts={};
   activities.forEach(a=>{sportCounts[a.sport_type]=(sportCounts[a.sport_type]||0)+1;});
+
+  function daysAgo(dateStr){
+    const diff=Math.round((now-new Date(dateStr))/(1000*60*60*24));
+    if(diff===0) return 'today';
+    if(diff===1) return 'yesterday';
+    return `${diff} days ago`;
+  }
+
   const summary=activities.slice(0,20).map(a=>[
-    `${a.date}: ${a.name} [${a.sport_type}]`,
+    `${a.date} (${daysAgo(a.date)}): ${a.name} [${a.sport_type}]`,
     a.distance_mi>0?`${a.distance_mi.toFixed(1)}mi`:null,
     a.moving_time_min>0?`${Math.round(a.moving_time_min)}min`:null,
     a.avg_hr?`AvgHR=${Math.round(a.avg_hr)}bpm`:null,
@@ -644,6 +656,8 @@ function buildContext(){
   const weekDist=week.filter(a=>['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type)).reduce((s,a)=>s+(a.distance_mi||0),0);
 
   return `You are an expert endurance sports coach for Wellington Wu, age 41, South Jersey.
+
+TODAY: ${todayStr} (${dayOfWeek}). Use this as your date anchor for all planning and recency calculations. Next Thursday is ${new Date(now.getTime()+(((4-now.getDay())+7)%7||7)*24*60*60*1000).toLocaleDateString('en-US',{month:'long',day:'numeric'})}.
 
 ATHLETE PROFILE:
 - Primary goal: metric century then full century
