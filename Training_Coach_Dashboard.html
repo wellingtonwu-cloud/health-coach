@@ -20,7 +20,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--paper); color:var(--ink); font-family:'Bricolage Grotesque',system-ui,sans-serif; height:100vh; overflow:hidden; }
 
-/* Header */
 header { height:56px; background:var(--surface); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:0 20px; }
 .brand { display:flex; align-items:center; gap:10px; }
 .brand-mark { width:30px; height:30px; background:var(--orange); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:15px; }
@@ -35,40 +34,33 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .hbtn-strava { background:#FC4C02; color:white; border-color:#FC4C02; }
 .hbtn-strava:hover { background:#d93d00; border-color:#d93d00; }
 
-/* Layout */
 .layout { display:grid; grid-template-columns:1fr 380px; height:calc(100vh - 56px); overflow:hidden; }
 .left { overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; background:var(--paper); }
 .left::-webkit-scrollbar { width:3px; }
 .left::-webkit-scrollbar-thumb { background:var(--line2); border-radius:3px; }
 
-/* Section label */
 .slabel { font-family:'Geist Mono',monospace; font-size:10px; font-weight:500; color:var(--ink3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
 .slabel::after { content:''; flex:1; height:1px; background:var(--line); }
 
-/* Filter tabs */
 .filter-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px; }
 .ftab { padding:4px 12px; border-radius:20px; font-family:'Geist Mono',monospace; font-size:10px; font-weight:500; cursor:pointer; border:1px solid var(--line); background:var(--surface); color:var(--ink3); transition:all 0.12s; }
 .ftab:hover { border-color:var(--line2); color:var(--ink2); }
 .ftab.active { background:var(--orange); color:white; border-color:var(--orange); }
 
-/* Stats row */
 .stats-row { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
 .stat-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; transition:box-shadow 0.12s; }
 .stat-card:hover { box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 .stat-label { font-family:'Geist Mono',monospace; font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
 .stat-val { font-weight:800; font-size:24px; color:var(--ink); letter-spacing:-0.5px; line-height:1; }
-.stat-unit { font-size:12px; font-weight:400; color:var(--ink3); margin-left:2px; }
 .stat-sub { font-size:11px; color:var(--ink3); margin-top:4px; }
 
-/* Sport breakdown */
 .sport-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .sport-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:12px 14px; display:flex; align-items:center; gap:10px; }
 .sport-icon { font-size:20px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
 .sport-info { min-width:0; }
-.sport-name { font-weight:700; font-size:12px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sport-name { font-weight:700; font-size:12px; color:var(--ink); }
 .sport-count { font-family:'Geist Mono',monospace; font-size:10px; color:var(--ink3); margin-top:2px; }
 
-/* Chart */
 .chart-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; }
 .chart-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
 .chart-title { font-weight:700; font-size:14px; color:var(--ink); }
@@ -82,7 +74,6 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .chart-bar:hover { opacity:0.75; }
 .chart-bar-label { font-family:'Geist Mono',monospace; font-size:9px; color:var(--ink3); text-align:center; white-space:nowrap; }
 
-/* Activity table */
 .activity-table { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; }
 .table-head { display:grid; grid-template-columns:36px 1fr 75px 65px 65px 65px 65px 55px 50px; gap:0; padding:10px 14px; background:var(--paper); border-bottom:1px solid var(--line); }
 .th { font-family:'Geist Mono',monospace; font-size:9px; color:var(--ink3); text-transform:uppercase; letter-spacing:1px; font-weight:500; text-align:right; }
@@ -98,20 +89,17 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .effort-pill { display:inline-flex; align-items:center; justify-content:center; padding:2px 8px; border-radius:4px; font-family:'Geist Mono',monospace; font-size:11px; font-weight:500; float:right; }
 .sport-badge { display:inline-flex; align-items:center; padding:1px 6px; border-radius:3px; font-family:'Geist Mono',monospace; font-size:9px; font-weight:500; margin-top:2px; }
 
-/* Empty */
 .empty-state { background:var(--surface); border:1px dashed var(--line2); border-radius:var(--r); padding:32px; text-align:center; }
 .empty-icon { font-size:28px; margin-bottom:8px; }
 .empty-title { font-weight:700; font-size:15px; color:var(--ink2); margin-bottom:4px; }
 .empty-desc { font-size:12px; color:var(--ink3); line-height:1.6; max-width:240px; margin:0 auto; }
 
-/* Strava loading */
 .strava-loading { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:20px; display:flex; align-items:center; gap:12px; }
 .strava-spinner { width:20px; height:20px; border:2px solid var(--line); border-top-color:#FC4C02; border-radius:50%; animation:spin 0.8s linear infinite; flex-shrink:0; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .strava-msg { font-size:13px; color:var(--ink2); }
 .strava-msg span { font-family:'Geist Mono',monospace; font-size:11px; color:var(--ink3); display:block; margin-top:2px; }
 
-/* Right panel */
 .right { border-left:1px solid var(--line); background:var(--surface); display:flex; flex-direction:column; height:100%; overflow:hidden; min-height:0; }
 .chat-header { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
 .chat-title { font-weight:800; font-size:15px; letter-spacing:-0.3px; }
@@ -122,7 +110,6 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .sdot { width:5px; height:5px; border-radius:50%; background:currentColor; animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* Prompts */
 .prompts { padding:12px 14px; border-bottom:1px solid var(--line); background:var(--paper); flex-shrink:0; }
 .prompts-label { font-family:'Geist Mono',monospace; font-size:9px; color:var(--ink3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; }
 .prompt-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
@@ -130,7 +117,6 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .pbtn:hover { border-color:var(--orange); color:var(--orange); background:var(--orange-pale); }
 .pbtn-icon { font-size:12px; flex-shrink:0; margin-top:1px; }
 
-/* Messages */
 .messages { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:12px; }
 .messages::-webkit-scrollbar { width:3px; }
 .messages::-webkit-scrollbar-thumb { background:var(--line); border-radius:3px; }
@@ -149,7 +135,6 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .typing-wrap span:nth-child(3){animation-delay:0.3s}
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
 
-/* Input */
 .input-wrap { padding:12px 14px; border-top:1px solid var(--line); flex-shrink:0; }
 .ctx-row { display:flex; align-items:center; gap:6px; margin-bottom:8px; font-family:'Geist Mono',monospace; font-size:10px; color:var(--ink3); flex-wrap:wrap; }
 .ctx-tag { padding:2px 7px; border-radius:3px; font-size:10px; font-weight:500; background:var(--paper); color:var(--ink3); border:1px solid var(--line); }
@@ -163,9 +148,8 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .sbtn:hover { background:#c94f00; transform:scale(1.04); }
 .sbtn:disabled { background:var(--line); color:var(--ink3); cursor:not-allowed; transform:none; }
 
-/* Modal */
 .modal-overlay { position:fixed; inset:0; background:rgba(15,15,15,0.6); backdrop-filter:blur(6px); z-index:100; display:flex; align-items:center; justify-content:center; }
-.modal { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:26px; width:440px; max-width:92vw; box-shadow:0 20px 60px rgba(0,0,0,0.12); }
+.modal { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:26px; width:460px; max-width:92vw; box-shadow:0 20px 60px rgba(0,0,0,0.12); max-height:90vh; overflow-y:auto; }
 .modal-title { font-weight:800; font-size:18px; letter-spacing:-0.4px; margin-bottom:4px; }
 .modal-desc { font-size:13px; color:var(--ink2); line-height:1.6; margin-bottom:18px; }
 .mfield { margin-bottom:13px; }
@@ -174,6 +158,7 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .mfield input:focus { border-color:var(--orange); background:var(--surface); }
 .mfield input::placeholder { color:var(--ink4); }
 .mfield-hint { font-size:11px; color:var(--ink3); margin-top:4px; line-height:1.5; }
+.modal-section { font-family:'Geist Mono',monospace; font-size:10px; font-weight:500; color:var(--ink3); text-transform:uppercase; letter-spacing:1px; margin:18px 0 12px; padding-top:18px; border-top:1px solid var(--line); }
 .modal-actions { display:flex; gap:8px; margin-top:18px; }
 .mbtn { flex:1; padding:10px; border-radius:var(--r-sm); font-family:'Bricolage Grotesque',sans-serif; font-size:13px; font-weight:600; cursor:pointer; border:1px solid var(--line); background:var(--surface); color:var(--ink2); transition:all 0.12s; }
 .mbtn:hover { background:var(--paper); }
@@ -270,22 +255,47 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 <div class="modal-overlay hidden" id="modal">
   <div class="modal">
     <div class="modal-title">Connect Your Data</div>
-    <div class="modal-desc">Your Anthropic API key is required. Google Sheet credentials are optional — used for historical data only.</div>
+    <div class="modal-desc">All credentials are saved locally in your browser only — never sent to any third party.</div>
+
+    <div class="modal-section">Anthropic</div>
     <div class="mfield">
       <label>Anthropic API Key</label>
       <input type="password" id="apiKey" placeholder="sk-ant-...">
       <div class="mfield-hint">console.anthropic.com → API Keys</div>
     </div>
+
+    <div class="modal-section">Strava API</div>
     <div class="mfield">
-      <label>Google Sheets API Key <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <input type="password" id="sheetsKey" placeholder="AIza...">
-      <div class="mfield-hint">For historical sheet data only. Not required for Strava.</div>
+      <label>Strava Access Token</label>
+      <input type="password" id="stravaToken" placeholder="e928...">
+      <div class="mfield-hint">strava.com/settings/api — expires every 6 hours. Tomorrow: set up auto-refresh backend.</div>
     </div>
     <div class="mfield">
-      <label>Google Sheet ID <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <label>Strava Client ID</label>
+      <input type="text" id="stravaClientId" placeholder="228214">
+    </div>
+    <div class="mfield">
+      <label>Strava Client Secret</label>
+      <input type="password" id="stravaSecret" placeholder="6cd5...">
+      <div class="mfield-hint">Used for token refresh. Regenerate at strava.com/settings/api after setup.</div>
+    </div>
+    <div class="mfield">
+      <label>Strava Refresh Token</label>
+      <input type="password" id="stravaRefresh" placeholder="Optional — enables auto-refresh">
+      <div class="mfield-hint">Find at strava.com/settings/api or leave blank to refresh manually.</div>
+    </div>
+
+    <div class="modal-section">Google Sheet (optional — historical data)</div>
+    <div class="mfield">
+      <label>Google Sheets API Key</label>
+      <input type="password" id="sheetsKey" placeholder="AIza...">
+    </div>
+    <div class="mfield">
+      <label>Google Sheet ID</label>
       <input type="text" id="sheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
       <div class="mfield-hint">From your sheet URL: /spreadsheets/d/<strong>SHEET_ID</strong>/edit</div>
     </div>
+
     <div class="modal-actions">
       <button class="mbtn" onclick="hideConfig()">Cancel</button>
       <button class="mbtn mbtn-primary" onclick="saveConfig()">Save & Connect</button>
@@ -295,17 +305,15 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 
 <script>
 // ── State ──
-let cfg = { apiKey:'', sheetsKey:'', sheetId:'' };
+let cfg = { apiKey:'', stravaToken:'', stravaClientId:'', stravaSecret:'', stravaRefresh:'', sheetsKey:'', sheetId:'' };
 let activities = [];
-let stravaRaw = [];
-let dataSource = 'none'; // 'strava' | 'sheet' | 'none'
+let dataSource = 'none';
 let activeFilter = 'All';
 let chatHistory = [];
 let busy = false;
 
-// ── Sport config ──
 const SPORT_CONFIG = {
-  Ride:             { icon:'🚴', color:'var(--orange)',  bg:'var(--orange-pale)',  label:'Road Ride' },
+  Ride:             { icon:'🚴', color:'var(--orange)',  bg:'var(--orange-pale)',  label:'Road' },
   VirtualRide:      { icon:'⚡', color:'var(--purple)',  bg:'var(--purple-pale)',  label:'Zwift' },
   MountainBikeRide: { icon:'🏔', color:'var(--green)',   bg:'var(--green-pale)',   label:'MTB' },
   GravelRide:       { icon:'🪨', color:'var(--teal)',    bg:'var(--teal-pale)',    label:'Gravel' },
@@ -315,17 +323,14 @@ const SPORT_CONFIG = {
   Swim:             { icon:'🏊', color:'var(--blue)',    bg:'var(--blue-pale)',    label:'Swim' },
   Hike:             { icon:'🥾', color:'var(--green)',   bg:'var(--green-pale)',   label:'Hike' },
 };
-
-function getSport(type) {
-  return SPORT_CONFIG[type] || { icon:'⚡', color:'var(--ink2)', bg:'var(--paper)', label:type };
-}
+function getSport(t){ return SPORT_CONFIG[t]||{icon:'⚡',color:'var(--ink2)',bg:'var(--paper)',label:t}; }
 
 const QUICK = {
   debrief: "Give me a full debrief on my most recent activity. Include power analysis if available, effort level, how it fits my training plan, and one specific thing to focus on next session.",
   load: "Analyze my training load across all activity types over the past 2 weeks. Am I building fitness progressively, overreaching, or undertraining? Factor in cycling, MTB, strength, and any other activities.",
-  intensity: "Based on my recent activity data across all sport types — looking at effort levels, relative effort scores, and training frequency — what intensity should I target tomorrow? Be specific about type, duration, and target power or RPE.",
+  intensity: "Based on my recent activity data across all sport types, what intensity should I target tomorrow? Be specific about type, duration, and target power or RPE.",
   plan: "Based on my recent training load across all activities, plan my next 3 days. Specify activity type, duration, and intensity for each day. Factor in my century training goal and MTB race schedule.",
-  fitness: "Looking at my recent rides — power output, avg speed, relative effort, and cadence trends — am I getting fitter or showing signs of fatigue? Give me an honest assessment across all sport types.",
+  fitness: "Looking at my recent rides — power output, avg speed, relative effort, and cadence trends — am I getting fitter or showing signs of fatigue? Give me an honest assessment.",
   strength: "How well am I balancing strength training with my cycling load? Are my weight training sessions timed well relative to hard cycling efforts? What adjustments would you make?",
   mtb: "Assess my MTB race readiness based on recent mountain bike and road rides. How is my fitness trending for Thursday night racing? What should I prioritize this week?",
   weekly: "Give me a full weekly training brief: volume by sport type, intensity distribution, relative effort totals, key observations, and what I should focus on next week."
@@ -338,544 +343,438 @@ document.addEventListener('DOMContentLoaded', () => {
     const s = localStorage.getItem('tc_cfg');
     if (s) {
       cfg = {...cfg, ...JSON.parse(s)};
-      if (cfg.apiKey) document.getElementById('apiKey').value = cfg.apiKey;
-      if (cfg.sheetsKey) document.getElementById('sheetsKey').value = cfg.sheetsKey;
-      if (cfg.sheetId) document.getElementById('sheetId').value = cfg.sheetId;
+      document.getElementById('apiKey').value = cfg.apiKey||'';
+      document.getElementById('stravaToken').value = cfg.stravaToken||'';
+      document.getElementById('stravaClientId').value = cfg.stravaClientId||'';
+      document.getElementById('stravaSecret').value = cfg.stravaSecret||'';
+      document.getElementById('stravaRefresh').value = cfg.stravaRefresh||'';
+      document.getElementById('sheetsKey').value = cfg.sheetsKey||'';
+      document.getElementById('sheetId').value = cfg.sheetId||'';
     }
   } catch(e){}
-  if (!cfg.apiKey) showConfig();
+  if (!cfg.apiKey || !cfg.stravaToken) showConfig();
+  else if (cfg.stravaToken) loadStrava();
 });
 
 function showConfig(){ document.getElementById('modal').classList.remove('hidden'); }
 function hideConfig(){ document.getElementById('modal').classList.add('hidden'); }
 
 function saveConfig(){
-  cfg.apiKey = document.getElementById('apiKey').value.trim();
-  cfg.sheetsKey = document.getElementById('sheetsKey').value.trim();
-  cfg.sheetId = document.getElementById('sheetId').value.trim();
+  cfg.apiKey          = document.getElementById('apiKey').value.trim();
+  cfg.stravaToken     = document.getElementById('stravaToken').value.trim();
+  cfg.stravaClientId  = document.getElementById('stravaClientId').value.trim();
+  cfg.stravaSecret    = document.getElementById('stravaSecret').value.trim();
+  cfg.stravaRefresh   = document.getElementById('stravaRefresh').value.trim();
+  cfg.sheetsKey       = document.getElementById('sheetsKey').value.trim();
+  cfg.sheetId         = document.getElementById('sheetId').value.trim();
   localStorage.setItem('tc_cfg', JSON.stringify(cfg));
   hideConfig();
+  if (cfg.stravaToken) loadStrava();
 }
 
-// ── Strava pull via Anthropic API + MCP ──
-async function loadStrava() {
-  if (!cfg.apiKey) { showConfig(); return; }
-  setStatus('Pulling Strava...', 'strava');
-
+// ── Strava direct API ──
+async function loadStrava(){
+  if (!cfg.stravaToken){ showConfig(); return; }
+  setStatus('Pulling Strava...','strava');
   document.getElementById('mainContent').innerHTML = `
     <div class="strava-loading">
       <div class="strava-spinner"></div>
-      <div class="strava-msg">Pulling from Strava via Claude MCP...
-        <span>Fetching activities, performance data, and gear info</span>
+      <div class="strava-msg">Pulling from Strava API...
+        <span>Fetching activities across all sport types</span>
       </div>
     </div>`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': cfg.apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 8000,
-        mcp_servers: [{
-          type: 'url',
-          url: 'https://mcp.strava.com/mcp',
-          name: 'strava'
-        }],
-        system: `You are a data extraction agent. The user wants their Strava activity data extracted and returned as structured JSON.
+    // Pull up to 60 activities (2 pages of 30)
+    const page1 = await stravaFetch('/athlete/activities?per_page=30&page=1');
+    const page2 = await stravaFetch('/athlete/activities?per_page=30&page=2');
+    const raw = [...page1, ...page2];
 
-Return ONLY a valid JSON object in this exact format, no other text:
-{
-  "activities": [
-    {
-      "id": "string",
-      "name": "string",
-      "sport_type": "string",
-      "date": "YYYY-MM-DD",
-      "distance_mi": number,
-      "moving_time_min": number,
-      "elapsed_time_min": number,
-      "elevation_ft": number,
-      "avg_speed_mph": number,
-      "max_speed_mph": number,
-      "avg_cadence": number or null,
-      "avg_watts": number or null,
-      "avg_hr": number or null,
-      "max_hr": number or null,
-      "calories": number,
-      "relative_effort": number,
-      "kudos": number,
-      "pr_count": number,
-      "achievement_count": number,
-      "description": "string"
-    }
-  ],
-  "gear": []
-}
+    activities = raw.map(a => ({
+      id:               String(a.id),
+      name:             a.name||'Activity',
+      sport_type:       a.sport_type||a.type||'Ride',
+      date:             a.start_date_local ? a.start_date_local.split('T')[0] : '',
+      distance_mi:      metersToMiles(a.distance||0),
+      moving_time_min:  secsToMins(a.moving_time||0),
+      elapsed_time_min: secsToMins(a.elapsed_time||0),
+      elevation_ft:     metersToFeet(a.total_elevation_gain||0),
+      avg_speed_mph:    msToMph(a.average_speed||0),
+      max_speed_mph:    msToMph(a.max_speed||0),
+      avg_cadence:      a.average_cadence||null,
+      avg_watts:        a.average_watts||null,
+      avg_hr:           a.average_heartrate||null,
+      max_hr:           a.max_heartrate||null,
+      calories:         a.calories||0,
+      relative_effort:  a.suffer_score||0,
+      kudos:            a.kudos_count||0,
+      pr_count:         a.pr_count||0,
+      achievement_count:a.achievement_count||0,
+      description:      a.description||'',
+      gear_id:          a.gear_id||null,
+      has_power:        a.device_watts||false,
+    })).filter(a => a.date).sort((x,y) => new Date(y.date)-new Date(x.date));
 
-Convert distances from meters to miles (divide by 1609.34).
-Convert speeds from m/s to mph (multiply by 2.23694).
-Convert times from seconds to minutes (divide by 60).
-Convert elevation from meters to feet (multiply by 3.28084).
-Fetch the 30 most recent activities. Include ALL sport types: Ride, VirtualRide, MountainBikeRide, GravelRide, Run, Walk, WeightTraining, Swim, Hike, etc.
-Also fetch gear info.`,
-        messages: [{
-          role: 'user',
-          content: 'Fetch my 30 most recent Strava activities across all sport types, plus my gear. Return the structured JSON only.'
-        }]
-      })
-    });
-
-    const json = await res.json();
-    if (json.error) throw new Error(json.error.message);
-
-    // Extract JSON from response
-    const textBlocks = json.content.filter(b => b.type === 'text');
-    const fullText = textBlocks.map(b => b.text).join('');
-
-    let parsed;
-    // Try to extract JSON from the response
-    const jsonMatch = fullText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      parsed = JSON.parse(jsonMatch[0]);
-    } else {
-      throw new Error('Could not parse Strava data from response');
-    }
-
-    stravaRaw = parsed.activities || [];
-    activities = [...stravaRaw].sort((a,b) => new Date(b.date) - new Date(a.date));
     dataSource = 'strava';
-
     renderAll();
-    setStatus('Ready', 'ready');
+    setStatus('Ready','ready');
     updateCtxTag();
+    addMsg('system', `Loaded ${activities.length} activities from Strava. Ask me anything about your training.`);
 
-  } catch(e) {
-    setStatus('Error', 'busy');
+  } catch(e){
+    setStatus('Error','busy');
     document.getElementById('mainContent').innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">⚠️</div>
         <div class="empty-title">Strava pull failed</div>
-        <div class="empty-desc">${e.message}. Check your API key and try again.</div>
+        <div class="empty-desc">${e.message}</div>
       </div>`;
-    addMsg('system', `Strava pull error: ${e.message}`);
+    addMsg('system', `Strava error: ${e.message}. Your token may have expired — update it in Configure.`);
   }
 }
 
+async function stravaFetch(path){
+  const res = await fetch(`https://www.strava.com/api/v3${path}`, {
+    headers: { 'Authorization': `Bearer ${cfg.stravaToken}` }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.message || `Strava API error ${res.status}`);
+  }
+  return res.json();
+}
+
+function metersToMiles(m){ return m/1609.34; }
+function metersToFeet(m){ return m*3.28084; }
+function msToMph(ms){ return ms*2.23694; }
+function secsToMins(s){ return s/60; }
+
 // ── Sheet fallback ──
-async function loadSheet() {
-  if (!cfg.sheetId || !cfg.sheetsKey) { showConfig(); return; }
-  setStatus('Loading sheet...', 'busy');
+async function loadSheet(){
+  if (!cfg.sheetId||!cfg.sheetsKey){ showConfig(); return; }
+  setStatus('Loading sheet...','busy');
   try {
     const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}/values/Activities!A3:R200?key=${cfg.sheetsKey}`);
     const json = await res.json();
     if (json.error) throw new Error(json.error.message);
-    parseSheetActivities(json.values || []);
-    dataSource = 'sheet';
+    activities = (json.values||[]).map(r=>({
+      id:r[0]||'', date:r[1]||'', name:r[2]||'Activity', sport_type:r[3]||'Ride',
+      distance_mi:parseFloat(r[4])||0, moving_time_min:parseFloat(r[5])||0,
+      elapsed_time_min:parseFloat(r[5])||0, elevation_ft:parseFloat(r[6])||0,
+      avg_hr:parseFloat(r[7])||null, max_hr:parseFloat(r[8])||null,
+      avg_watts:parseFloat(r[9])||null, avg_speed_mph:parseFloat(r[10])||0,
+      calories:parseFloat(r[11])||0, relative_effort:parseFloat(r[13])||0,
+      avg_cadence:null, max_speed_mph:0, kudos:0, pr_count:0, achievement_count:0,
+      description:r[17]||'', has_power:false
+    })).filter(r=>r.date).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    dataSource='sheet';
     renderAll();
-    setStatus('Ready', 'ready');
+    setStatus('Ready','ready');
     updateCtxTag();
-  } catch(e) {
-    setStatus('Error', 'busy');
-    addMsg('system', `Sheet load error: ${e.message}`);
+  } catch(e){
+    setStatus('Error','busy');
+    addMsg('system',`Sheet error: ${e.message}`);
   }
 }
 
-function parseSheetActivities(rows) {
-  activities = rows.map(r => ({
-    id: r[0]||'',
-    date: r[1]||'',
-    name: r[2]||'Activity',
-    sport_type: r[3]||'Ride',
-    distance_mi: parseFloat(r[4])||0,
-    moving_time_min: parseFloat(r[5])||0,
-    elapsed_time_min: parseFloat(r[5])||0,
-    elevation_ft: parseFloat(r[6])||0,
-    avg_hr: parseFloat(r[7])||null,
-    max_hr: parseFloat(r[8])||null,
-    avg_watts: parseFloat(r[9])||null,
-    avg_speed_mph: parseFloat(r[10])||0,
-    calories: parseFloat(r[11])||0,
-    relative_effort: parseFloat(r[13])||0,
-    avg_cadence: null, max_speed_mph: 0, kudos: 0, pr_count: 0, achievement_count: 0, description: r[17]||''
-  })).filter(r => r.date).sort((a,b) => new Date(b.date) - new Date(a.date));
+function updateCtxTag(){
+  const ct=document.getElementById('ctxTag');
+  const cs=document.getElementById('ctxSource');
+  ct.textContent=`${activities.length} activities`;
+  ct.className=dataSource==='strava'?'ctx-tag strava-loaded':'ctx-tag loaded';
+  cs.textContent=dataSource==='strava'?'Live Strava':'Google Sheet';
+  cs.className=dataSource==='strava'?'ctx-tag strava-loaded':'ctx-tag loaded';
+  cs.style.display='inline-flex';
 }
 
-function updateCtxTag() {
-  const ct = document.getElementById('ctxTag');
-  const cs = document.getElementById('ctxSource');
-  ct.textContent = `${activities.length} activities`;
-  ct.className = dataSource === 'strava' ? 'ctx-tag strava-loaded' : 'ctx-tag loaded';
-  cs.textContent = dataSource === 'strava' ? 'Live Strava' : 'Google Sheet';
-  cs.className = dataSource === 'strava' ? 'ctx-tag strava-loaded' : 'ctx-tag loaded';
-  cs.style.display = 'inline-flex';
+// ── Render ──
+function renderAll(){
+  const filtered=getFiltered();
+  document.getElementById('mainContent').innerHTML=
+    renderFilterTabs()+renderStats(filtered)+renderSportBreakdown()+renderChart(filtered)+renderTable(filtered);
+  attachHandlers();
 }
 
-// ── Render all ──
-function renderAll() {
-  const filtered = getFiltered();
-  const html = `
-    ${renderFilterTabs()}
-    ${renderStats(filtered)}
-    ${renderSportBreakdown()}
-    ${renderChart(filtered)}
-    ${renderTable(filtered)}
-  `;
-  document.getElementById('mainContent').innerHTML = html;
-  attachFilterHandlers();
-}
-
-function getFiltered() {
-  if (activeFilter === 'All') return activities;
-  const map = {
-    'Cycling': ['Ride','VirtualRide','MountainBikeRide','GravelRide'],
-    'MTB': ['MountainBikeRide'],
-    'Zwift': ['VirtualRide'],
-    'Strength': ['WeightTraining'],
-    'Other': ['Run','Walk','Hike','Swim']
+function getFiltered(){
+  if(activeFilter==='All') return activities;
+  const map={
+    'Cycling':['Ride','GravelRide'],
+    'MTB':['MountainBikeRide'],
+    'Zwift':['VirtualRide'],
+    'Strength':['WeightTraining'],
+    'Other':['Run','Walk','Hike','Swim']
   };
-  return activities.filter(a => (map[activeFilter]||[]).includes(a.sport_type));
+  return activities.filter(a=>(map[activeFilter]||[]).includes(a.sport_type));
 }
 
-function renderFilterTabs() {
-  const filters = ['All','Cycling','MTB','Zwift','Strength','Other'];
-  return `
-    <div>
-      <div class="slabel">Filter</div>
-      <div class="filter-row" id="filterRow">
-        ${filters.map(f => `<button class="ftab ${f===activeFilter?'active':''}" data-filter="${f}">${f}</button>`).join('')}
-      </div>
-    </div>`;
+function renderFilterTabs(){
+  const filters=['All','Cycling','MTB','Zwift','Strength','Other'];
+  return `<div><div class="slabel">Filter</div><div class="filter-row" id="filterRow">
+    ${filters.map(f=>`<button class="ftab ${f===activeFilter?'active':''}" data-filter="${f}">${f}</button>`).join('')}
+  </div></div>`;
 }
 
-function attachFilterHandlers() {
-  document.querySelectorAll('.ftab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeFilter = btn.dataset.filter;
-      renderAll();
-    });
-  });
-  document.querySelectorAll('.table-row[data-id]').forEach(row => {
-    row.addEventListener('click', () => {
-      const act = activities.find(a => a.id == row.dataset.id);
-      if (act) triggerActivityDebrief(act);
-    });
-  });
+function renderStats(filtered){
+  const now=new Date(), weekAgo=new Date(now-7*24*60*60*1000);
+  const week=filtered.filter(a=>new Date(a.date)>=weekAgo);
+  const cycling=week.filter(a=>['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type));
+  const outdoor=week.filter(a=>['Ride','GravelRide','MountainBikeRide'].includes(a.sport_type));
+  const dist=cycling.reduce((s,a)=>s+(a.distance_mi||0),0);
+  const time=week.reduce((s,a)=>s+(a.moving_time_min||0),0);
+  const elev=outdoor.reduce((s,a)=>s+(a.elevation_ft||0),0);
+  const effort=week.reduce((s,a)=>s+(a.relative_effort||0),0);
+  return `<div><div class="slabel">This Week</div><div class="stats-row">
+    ${sc('Activities',week.length,'this week','var(--orange)')}
+    ${sc('Distance',dist.toFixed(1),'miles','var(--blue)')}
+    ${sc('Time',(time/60).toFixed(1),'hours','var(--green)')}
+    ${sc('Elevation',Math.round(elev).toLocaleString(),'ft','var(--purple)')}
+    ${sc('Effort',Math.round(effort),'rel. effort','var(--red)')}
+  </div></div>`;
 }
 
-function renderStats(filtered) {
-  const now = new Date();
-  const weekAgo = new Date(now - 7*24*60*60*1000);
-  const weekActs = filtered.filter(a => new Date(a.date) >= weekAgo);
-  const rides = weekActs.filter(a => ['Ride','GravelRide','MountainBikeRide'].includes(a.sport_type));
-  const allCycling = weekActs.filter(a => ['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type));
-
-  const totalDist = allCycling.reduce((s,a)=>s+(a.distance_mi||0),0);
-  const totalTime = weekActs.reduce((s,a)=>s+(a.moving_time_min||0),0);
-  const totalElev = rides.reduce((s,a)=>s+(a.elevation_ft||0),0);
-  const totalEffort = weekActs.reduce((s,a)=>s+(a.relative_effort||0),0);
-  const totalCal = weekActs.reduce((s,a)=>s+(a.calories||0),0);
-
-  return `
-    <div>
-      <div class="slabel">This Week</div>
-      <div class="stats-row">
-        ${statCard('Activities', weekActs.length, 'this week', 'var(--orange)')}
-        ${statCard('Distance', totalDist.toFixed(1), 'miles cycling', 'var(--blue)')}
-        ${statCard('Time', (totalTime/60).toFixed(1), 'hours', 'var(--green)')}
-        ${statCard('Elevation', Math.round(totalElev).toLocaleString(), 'ft', 'var(--purple)')}
-        ${statCard('Effort', Math.round(totalEffort), 'rel. effort', 'var(--red)')}
-      </div>
-    </div>`;
+function sc(label,value,sub,color){
+  return `<div class="stat-card"><div class="stat-label"><div style="width:7px;height:7px;border-radius:2px;background:${color};flex-shrink:0"></div>${label}</div><div class="stat-val">${value}</div><div class="stat-sub">${sub}</div></div>`;
 }
 
-function statCard(label, value, sub, color) {
-  return `<div class="stat-card">
-    <div class="stat-label"><div style="width:7px;height:7px;border-radius:2px;background:${color};flex-shrink:0"></div>${label}</div>
-    <div class="stat-val">${value}</div>
-    <div class="stat-sub">${sub}</div>
-  </div>`;
+function renderSportBreakdown(){
+  const counts={};
+  activities.forEach(a=>{counts[a.sport_type]=(counts[a.sport_type]||0)+1;});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  return `<div><div class="slabel">Sport Breakdown</div><div class="sport-row">
+    ${sorted.map(([type,count])=>{
+      const s=getSport(type);
+      const dist=activities.filter(a=>a.sport_type===type).reduce((sum,a)=>sum+(a.distance_mi||0),0);
+      const sub=dist>0?`${dist.toFixed(0)} mi total`:`${count} session${count>1?'s':''}`;
+      return `<div class="sport-card"><div class="sport-icon" style="background:${s.bg}">${s.icon}</div>
+        <div class="sport-info"><div class="sport-name">${s.label}</div><div class="sport-count">${count} activities · ${sub}</div></div></div>`;
+    }).join('')}
+  </div></div>`;
 }
 
-function renderSportBreakdown() {
-  const counts = {};
-  activities.forEach(a => { counts[a.sport_type] = (counts[a.sport_type]||0)+1; });
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,4);
-  return `
-    <div>
-      <div class="slabel">Sport Breakdown</div>
-      <div class="sport-row">
-        ${sorted.map(([type,count]) => {
-          const s = getSport(type);
-          const dist = activities.filter(a=>a.sport_type===type).reduce((sum,a)=>sum+(a.distance_mi||0),0);
-          const sub = dist > 0 ? `${dist.toFixed(0)} mi total` : `${count} session${count>1?'s':''}`;
-          return `<div class="sport-card">
-            <div class="sport-icon" style="background:${s.bg}">${s.icon}</div>
-            <div class="sport-info">
-              <div class="sport-name">${s.label}</div>
-              <div class="sport-count">${count} activities · ${sub}</div>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`;
-}
-
-function renderChart(filtered) {
-  const chartable = filtered.filter(a => a.distance_mi > 0).slice(0,12).reverse();
-  if (!chartable.length) return '';
-  const maxDist = Math.max(...chartable.map(a=>a.distance_mi), 1);
-  const bars = chartable.map(a => {
-    const s = getSport(a.sport_type);
-    const h = Math.max((a.distance_mi/maxDist)*100, 5);
-    const date = new Date(a.date);
-    const label = isNaN(date) ? '' : `${date.getMonth()+1}/${date.getDate()}`;
+function renderChart(filtered){
+  const chartable=filtered.filter(a=>a.distance_mi>0).slice(0,12).reverse();
+  if(!chartable.length) return '';
+  const maxDist=Math.max(...chartable.map(a=>a.distance_mi),1);
+  const bars=chartable.map(a=>{
+    const s=getSport(a.sport_type);
+    const h=Math.max((a.distance_mi/maxDist)*100,5);
+    const date=new Date(a.date);
+    const label=isNaN(date)?'':`${date.getMonth()+1}/${date.getDate()}`;
     return `<div class="chart-bar-wrap" title="${a.name}: ${a.distance_mi.toFixed(1)}mi">
-      <div class="chart-bar-inner">
-        <div class="chart-bar" style="height:${h}%;background:${s.color};opacity:0.8"></div>
-      </div>
-      <div class="chart-bar-label">${label}</div>
-    </div>`;
+      <div class="chart-bar-inner"><div class="chart-bar" style="height:${h}%;background:${s.color};opacity:0.8"></div></div>
+      <div class="chart-bar-label">${label}</div></div>`;
   }).join('');
-
-  const legendTypes = [...new Set(chartable.map(a=>a.sport_type))].slice(0,4);
-  const legend = legendTypes.map(t => {
-    const s = getSport(t);
-    return `<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div>${s.label}</div>`;
-  }).join('');
-
-  return `
-    <div>
-      <div class="slabel">Distance — Last 12 Activities</div>
-      <div class="chart-card">
-        <div class="chart-header">
-          <div class="chart-title">Distance by activity</div>
-          <div class="chart-legend">${legend}</div>
-        </div>
-        <div class="chart-area">${bars}</div>
-      </div>
-    </div>`;
+  const legendTypes=[...new Set(chartable.map(a=>a.sport_type))].slice(0,4);
+  const legend=legendTypes.map(t=>{const s=getSport(t);return `<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div>${s.label}</div>`;}).join('');
+  return `<div><div class="slabel">Distance — Last 12 Activities</div>
+    <div class="chart-card"><div class="chart-header"><div class="chart-title">Distance by activity</div><div class="chart-legend">${legend}</div></div>
+    <div class="chart-area">${bars}</div></div></div>`;
 }
 
-function effortColor(n) {
-  if (n >= 100) return ['var(--red-pale)','var(--red)'];
-  if (n >= 50)  return ['var(--orange-pale)','var(--orange)'];
-  if (n >= 20)  return ['var(--blue-pale)','var(--blue)'];
+function effortColor(n){
+  if(n>=100) return ['var(--red-pale)','var(--red)'];
+  if(n>=50)  return ['var(--orange-pale)','var(--orange)'];
+  if(n>=20)  return ['var(--blue-pale)','var(--blue)'];
   return ['var(--paper)','var(--ink3)'];
 }
 
-function renderTable(filtered) {
-  const rows = filtered.slice(0,20);
-  if (!rows.length) return `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No activities</div><div class="empty-desc">No activities match this filter.</div></div>`;
-
-  const tableRows = rows.map(a => {
-    const s = getSport(a.sport_type);
-    const date = a.date ? new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
-    const dist = a.distance_mi > 0 ? a.distance_mi.toFixed(1) : '--';
-    const dur = a.moving_time_min > 0 ? Math.round(a.moving_time_min) : '--';
-    const hr = a.avg_hr ? Math.round(a.avg_hr) : '--';
-    const pwr = a.avg_watts ? Math.round(a.avg_watts) : '--';
-    const cad = a.avg_cadence ? Math.round(a.avg_cadence) : '--';
-    const effort = a.relative_effort || '--';
-    const elev = a.elevation_ft > 0 ? Math.round(a.elevation_ft).toLocaleString() : '--';
-    const [ebg, efg] = effortColor(a.relative_effort||0);
+function renderTable(filtered){
+  const rows=filtered.slice(0,20);
+  if(!rows.length) return `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No activities</div><div class="empty-desc">No activities match this filter.</div></div>`;
+  const tableRows=rows.map(a=>{
+    const s=getSport(a.sport_type);
+    const date=a.date?new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+    const dist=a.distance_mi>0?a.distance_mi.toFixed(1):'--';
+    const dur=a.moving_time_min>0?Math.round(a.moving_time_min):'--';
+    const hr=a.avg_hr?Math.round(a.avg_hr):'--';
+    const pwr=a.avg_watts?Math.round(a.avg_watts):'--';
+    const cad=a.avg_cadence?Math.round(a.avg_cadence):'--';
+    const elev=a.elevation_ft>0?Math.round(a.elevation_ft).toLocaleString():'--';
+    const effort=a.relative_effort||'--';
+    const [ebg,efg]=effortColor(a.relative_effort||0);
+    const pwrFlag=a.has_power?'<span style="color:var(--orange);font-size:9px;margin-left:2px">⚡</span>':'';
     return `<div class="table-row" data-id="${a.id}">
       <div class="row-icon" style="background:${s.bg}">${s.icon}</div>
       <div>
-        <div class="row-name">${a.name||a.sport_type}</div>
+        <div class="row-name">${a.name}</div>
         <div class="row-date">${date} · <span class="sport-badge" style="background:${s.bg};color:${s.color}">${s.label}</span></div>
       </div>
-      <div class="row-val ${dist==='--'?'muted':''}">${dist}<span style="color:var(--ink3);font-size:10px">${dist!=='--'?' mi':''}</span></div>
-      <div class="row-val ${dur==='--'?'muted':''}">${dur}<span style="color:var(--ink3);font-size:10px">${dur!=='--'?' min':''}</span></div>
+      <div class="row-val ${dist==='--'?'muted':''}">${dist}${dist!=='--'?'<span style="color:var(--ink3);font-size:10px"> mi</span>':''}</div>
+      <div class="row-val ${dur==='--'?'muted':''}">${dur}${dur!=='--'?'<span style="color:var(--ink3);font-size:10px"> m</span>':''}</div>
       <div class="row-val ${hr==='--'?'muted':''}">${hr}</div>
-      <div class="row-val ${pwr==='--'?'muted':''}">${pwr}</div>
+      <div class="row-val ${pwr==='--'?'muted':''}">${pwr}${pwrFlag}</div>
       <div class="row-val ${cad==='--'?'muted':''}">${cad}</div>
       <div class="row-val ${elev==='--'?'muted':''}">${elev}</div>
       <div class="row-val"><span class="effort-pill" style="background:${ebg};color:${efg}">${effort}</span></div>
     </div>`;
   }).join('');
-
-  return `
-    <div>
-      <div class="slabel">Recent Activities <span style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);margin-left:4px;text-transform:none;letter-spacing:0">click any row for debrief</span></div>
-      <div class="activity-table">
-        <div class="table-head">
-          <div class="th"></div>
-          <div class="th">Activity</div>
-          <div class="th">Dist</div>
-          <div class="th">Time</div>
-          <div class="th">HR</div>
-          <div class="th">Pwr</div>
-          <div class="th">Cad</div>
-          <div class="th">Elev</div>
-          <div class="th">Effort</div>
-        </div>
-        <div class="table-body">${tableRows}</div>
+  return `<div><div class="slabel">Recent Activities <span style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);margin-left:4px;text-transform:none;letter-spacing:0">click any row for debrief</span></div>
+    <div class="activity-table">
+      <div class="table-head">
+        <div class="th"></div><div class="th">Activity</div><div class="th">Dist</div>
+        <div class="th">Time</div><div class="th">HR</div><div class="th">Pwr</div>
+        <div class="th">Cad</div><div class="th">Elev</div><div class="th">Effort</div>
       </div>
-    </div>`;
+      <div class="table-body">${tableRows}</div>
+    </div></div>`;
 }
 
-// ── Context builder ──
-function buildContext() {
-  if (!activities.length) return '';
-  const recent = activities.slice(0,20);
-  const now = new Date();
-  const weekAgo = new Date(now - 7*24*60*60*1000);
-  const weekActs = activities.filter(a => new Date(a.date) >= weekAgo);
+function attachHandlers(){
+  document.querySelectorAll('.ftab').forEach(btn=>{
+    btn.addEventListener('click',()=>{ activeFilter=btn.dataset.filter; renderAll(); });
+  });
+  document.querySelectorAll('.table-row[data-id]').forEach(row=>{
+    row.addEventListener('click',()=>{
+      const act=activities.find(a=>a.id==row.dataset.id);
+      if(act) triggerDebrief(act);
+    });
+  });
+}
 
-  const sportCounts = {};
-  activities.forEach(a => { sportCounts[a.sport_type] = (sportCounts[a.sport_type]||0)+1; });
+function triggerDebrief(act){
+  const s=getSport(act.sport_type);
+  const parts=[
+    `Debrief my ${act.date} ${s.label} — "${act.name}".`,
+    act.distance_mi>0?`Distance: ${act.distance_mi.toFixed(1)} miles.`:'',
+    act.moving_time_min>0?`Duration: ${Math.round(act.moving_time_min)} min.`:'',
+    act.avg_watts?`Avg power: ${Math.round(act.avg_watts)}W.`:'',
+    act.avg_hr?`Avg HR: ${Math.round(act.avg_hr)} bpm.`:'',
+    act.avg_cadence?`Avg cadence: ${Math.round(act.avg_cadence)} rpm.`:'',
+    act.relative_effort?`Relative effort: ${act.relative_effort}.`:'',
+    act.pr_count>0?`${act.pr_count} PRs set.`:'',
+    'How did it fit the training plan and what should I focus on next?'
+  ].filter(Boolean).join(' ');
+  document.getElementById('cinput').value=parts;
+  send();
+}
 
-  const summary = recent.map(a => {
-    const parts = [
+// ── Context ──
+function buildContext(){
+  if(!activities.length) return '';
+  const now=new Date(), weekAgo=new Date(now-7*24*60*60*1000);
+  const week=activities.filter(a=>new Date(a.date)>=weekAgo);
+  const sportCounts={};
+  activities.forEach(a=>{sportCounts[a.sport_type]=(sportCounts[a.sport_type]||0)+1;});
+  const summary=activities.slice(0,20).map(a=>{
+    const parts=[
       `${a.date}: ${a.name} [${a.sport_type}]`,
-      a.distance_mi > 0 ? `${a.distance_mi.toFixed(1)}mi` : null,
-      a.moving_time_min > 0 ? `${Math.round(a.moving_time_min)}min` : null,
-      a.avg_hr ? `AvgHR=${Math.round(a.avg_hr)}bpm` : null,
-      a.avg_watts ? `Power=${Math.round(a.avg_watts)}W` : null,
-      a.avg_cadence ? `Cad=${Math.round(a.avg_cadence)}rpm` : null,
-      a.elevation_ft > 0 ? `Elev=${Math.round(a.elevation_ft)}ft` : null,
-      a.relative_effort ? `Effort=${a.relative_effort}` : null,
-      a.calories ? `Cal=${Math.round(a.calories)}` : null,
-      a.pr_count > 0 ? `PRs=${a.pr_count}` : null,
+      a.distance_mi>0?`${a.distance_mi.toFixed(1)}mi`:null,
+      a.moving_time_min>0?`${Math.round(a.moving_time_min)}min`:null,
+      a.avg_hr?`AvgHR=${Math.round(a.avg_hr)}bpm`:null,
+      a.avg_watts?`Power=${Math.round(a.avg_watts)}W`:null,
+      a.avg_cadence?`Cad=${Math.round(a.avg_cadence)}rpm`:null,
+      a.elevation_ft>0?`Elev=${Math.round(a.elevation_ft)}ft`:null,
+      a.relative_effort?`Effort=${a.relative_effort}`:null,
+      a.calories?`Cal=${Math.round(a.calories)}`:null,
+      a.pr_count>0?`PRs=${a.pr_count}`:null,
+      a.max_speed_mph>0?`MaxSpd=${a.max_speed_mph.toFixed(1)}mph`:null,
     ].filter(Boolean);
     return parts.join(', ');
   }).join('\n');
 
-  const weekEffort = weekActs.reduce((s,a)=>s+(a.relative_effort||0),0);
-  const weekDist = weekActs.filter(a=>['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type)).reduce((s,a)=>s+(a.distance_mi||0),0);
+  const weekEffort=week.reduce((s,a)=>s+(a.relative_effort||0),0);
+  const weekDist=week.filter(a=>['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type)).reduce((s,a)=>s+(a.distance_mi||0),0);
 
   return `You are an expert endurance sports coach for Wellington Wu, age 41, South Jersey.
 
 ATHLETE PROFILE:
 - Primary goal: metric century then full century
-- FTP: 242W (outdoor), 220W (Zwift). Sweet spot outdoor: ~210-215W, Zwift: ~190W
-- AFib history with ablation Jan 2025. HR cap ~125 bpm. Train by power and RPE, not HR
+- FTP: 242W outdoor, 220W Zwift. Sweet spot outdoor ~210-215W, Zwift ~190W
+- AFib history with ablation Jan 2025. HR cap ~125 bpm. Train by power and RPE not HR
 - Thalassemia trait. Weight 208-210 lb
-- Active MTB Thursday night racing (May-June, 5-lap XC events)
-- Cadence runs low (75-82 rpm) — target 88-92 rpm
+- Active MTB Thursday night XC racing (May-June, 5-lap ~2.2mi/lap events)
+- Cadence runs low 75-82 rpm — target 88-92 rpm
 - Power meter: Magene PES P515 dual-sided, 165mm cranks, 52/36
 - Bikes: Trek Domane SL7 (road), Otso Warakin Ti (gravel), Trek Crockett (CX)
-- Zwift on Android tablet
+- IT band / left knee recurring issue — upstream cause tight upper left glute medius
 
 COACHING RULES:
-- Max 2 quality sessions per week. 1 long endurance Saturday priority
+- Max 2 quality sessions per week. Long endurance Saturday priority
 - Never push through arrhythmia symptoms
-- Fueling: 60-90g carbs/hr for intensity, 40-60g for Zone 2
+- Fueling: 60-90g carbs/hr intensity, 40-60g Zone 2. Post-ride 25-35g protein
 - Two-day fatigue delay pattern — plan accordingly
-- Strength: goblet squats, RDLs, Bulgarian split squats, planks. RPE 6-7
-- MTB race week: openers Monday (4-5x 10-15sec punchy efforts), easy Wednesday, race Thursday
+- Strength: goblet squats, RDLs, Bulgarian split squats, planks. RPE 6-7, 8-12 reps
+- MTB race week: openers Monday 4-5x 10-15sec punchy efforts, easy Wednesday, race Thursday
 
-THIS WEEK: ${weekActs.length} activities, ${weekDist.toFixed(1)} cycling miles, ${weekEffort} total relative effort
-SPORT MIX: ${Object.entries(sportCounts).map(([t,c])=>`${t}:${c}`).join(', ')}
-DATA SOURCE: ${dataSource === 'strava' ? 'Live Strava MCP' : 'Google Sheet'}
+THIS WEEK: ${week.length} activities, ${weekDist.toFixed(1)} cycling miles, ${weekEffort} total relative effort
+SPORT MIX (last 60 activities): ${Object.entries(sportCounts).map(([t,c])=>`${t}:${c}`).join(', ')}
+DATA SOURCE: Live Strava API
 
 RECENT ACTIVITIES (newest first):
 ${summary}
 
-Be direct, specific, and data-driven. Reference actual numbers. Keep responses concise and actionable. Units in miles.`;
-}
-
-function triggerActivityDebrief(act) {
-  const s = getSport(act.sport_type);
-  const q = `Debrief my ${act.date} ${s.label} — "${act.name}". ${act.avg_watts ? `Power: ${Math.round(act.avg_watts)}W avg.` : ''} ${act.relative_effort ? `Relative effort: ${act.relative_effort}.` : ''} How did it fit the training plan and what should I focus on next?`;
-  document.getElementById('cinput').value = q;
-  send();
+Be direct, specific, data-driven. Reference actual numbers. Keep responses concise and actionable. Units in miles.`;
 }
 
 // ── Chat ──
-function setStatus(text, type) {
-  document.getElementById('statusText').textContent = text;
-  document.getElementById('statusBadge').className = `status-badge ${type}`;
+function setStatus(text,type){
+  document.getElementById('statusText').textContent=text;
+  document.getElementById('statusBadge').className=`status-badge ${type}`;
 }
+function quick(key){ document.getElementById('cinput').value=QUICK[key]; send(); }
+function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
 
-function quick(key) { document.getElementById('cinput').value = QUICK[key]; send(); }
-function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
-function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
-
-async function send() {
-  if (busy) return;
-  const inp = document.getElementById('cinput');
-  const text = inp.value.trim();
-  if (!text) return;
-  if (!cfg.apiKey) { addMsg('system','Add your Anthropic API key in Configure.'); showConfig(); return; }
-
+async function send(){
+  if(busy) return;
+  const inp=document.getElementById('cinput');
+  const text=inp.value.trim();
+  if(!text) return;
+  if(!cfg.apiKey){ addMsg('system','Add your Anthropic API key in Configure.'); showConfig(); return; }
   inp.value=''; inp.style.height='auto';
-  addMsg('user', text);
-  busy = true;
-  document.getElementById('sbtn').disabled = true;
+  addMsg('user',text);
+  busy=true;
+  document.getElementById('sbtn').disabled=true;
   setStatus('Thinking...','busy');
-
-  const tid = 't'+Date.now();
-  const tel = document.createElement('div');
-  tel.id = tid; tel.className = 'msg assistant';
-  tel.innerHTML = '<div class="typing-wrap"><span></span><span></span><span></span></div>';
+  const tid='t'+Date.now();
+  const tel=document.createElement('div');
+  tel.id=tid; tel.className='msg assistant';
+  tel.innerHTML='<div class="typing-wrap"><span></span><span></span><span></span></div>';
   document.getElementById('messages').appendChild(tel);
   scrollChat();
-
   try {
-    const ctx = buildContext();
-    const msgs = [];
-    if (chatHistory.length === 0 && ctx) {
-      msgs.push({role:'user', content: ctx + "\n\nI'm ready. Briefly confirm you have my activity data."});
-      msgs.push({role:'assistant', content: `Got it — I have your recent Strava data across all sport types: road rides, Zwift sessions, MTB, gravel, strength, and more. Ready to coach. What do you want to focus on?`});
+    const ctx=buildContext();
+    const msgs=[];
+    if(chatHistory.length===0&&ctx){
+      msgs.push({role:'user',content:ctx+"\n\nI'm ready. Briefly confirm you have my data."});
+      msgs.push({role:'assistant',content:"Got it — I have your recent Strava data across road, Zwift, MTB, gravel, strength, and more. Ready to coach."});
     }
-    chatHistory.forEach(m => msgs.push(m));
-    msgs.push({role:'user', content: text});
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': cfg.apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: ctx || 'You are an expert endurance sports coach.',
-        messages: msgs
-      })
+    chatHistory.forEach(m=>msgs.push(m));
+    msgs.push({role:'user',content:text});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':cfg.apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:ctx||'You are an expert endurance sports coach.',messages:msgs})
     });
-
-    const json = await res.json();
-    if (json.error) throw new Error(json.error.message);
-    const reply = json.content[0].text;
+    const json=await res.json();
+    if(json.error) throw new Error(json.error.message);
+    const reply=json.content[0].text;
     chatHistory.push({role:'user',content:text},{role:'assistant',content:reply});
-    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+    if(chatHistory.length>20) chatHistory=chatHistory.slice(-20);
     document.getElementById(tid)?.remove();
-    addMsg('assistant', reply);
+    addMsg('assistant',reply);
     setStatus('Ready','ready');
-  } catch(e) {
+  } catch(e){
     document.getElementById(tid)?.remove();
-    addMsg('system', `Error: ${e.message}`);
+    addMsg('system',`Error: ${e.message}`);
     setStatus('Ready','ready');
   } finally {
-    busy = false;
-    document.getElementById('sbtn').disabled = false;
+    busy=false;
+    document.getElementById('sbtn').disabled=false;
   }
 }
 
-function addMsg(role, text) {
-  const c = document.getElementById('messages');
-  const d = document.createElement('div');
-  d.className = `msg ${role}`;
-  const labels = {user:'You', assistant:'Coach', system:'System'};
-  d.innerHTML = `<div class="msg-who">${labels[role]||role}</div><div class="msg-text">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+function addMsg(role,text){
+  const c=document.getElementById('messages');
+  const d=document.createElement('div');
+  d.className=`msg ${role}`;
+  const labels={user:'You',assistant:'Coach',system:'System'};
+  d.innerHTML=`<div class="msg-who">${labels[role]||role}</div><div class="msg-text">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
   c.appendChild(d);
   scrollChat();
 }
 
-function scrollChat() {
-  const c = document.getElementById('messages');
-  c.scrollTop = c.scrollHeight;
-}
+function scrollChat(){ const c=document.getElementById('messages'); c.scrollTop=c.scrollHeight; }
 </script>
 </body>
 </html>
