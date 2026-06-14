@@ -264,9 +264,23 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 
     <div class="modal-section">Strava API</div>
     <div class="mfield">
-      <label>Strava Access Token</label>
-      <input type="password" id="stravaToken" placeholder="e928...">
+      <label>Strava Client ID</label>
+      <input type="text" id="stravaClientId" placeholder="228214">
       <div class="mfield-hint">strava.com/settings/api</div>
+    </div>
+    <div class="mfield">
+      <label>Strava Client Secret</label>
+      <input type="password" id="stravaSecret" placeholder="89ed...">
+    </div>
+    <div class="mfield">
+      <label>Strava Refresh Token</label>
+      <input type="password" id="stravaRefresh" placeholder="6ec5...">
+      <div class="mfield-hint">Never expires — token auto-refreshes on load</div>
+    </div>
+    <div class="mfield">
+      <label>Strava Access Token <span style="font-weight:400;text-transform:none;letter-spacing:0">(auto-managed)</span></label>
+      <input type="password" id="stravaToken" placeholder="Auto-refreshed from refresh token">
+      <div class="mfield-hint">Leave blank if you have a refresh token — it will be auto-populated</div>
     </div>
 
     <div class="modal-section">Google Sheet (optional)</div>
@@ -291,7 +305,7 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 const PROXY = 'https://training-coach-proxy.wellingtonwu.workers.dev';
 
 // ── State ──
-let cfg = { apiKey:'', stravaToken:'', sheetsKey:'', sheetId:'' };
+let cfg = { apiKey:'', stravaToken:'', stravaRefresh:'', stravaClientId:'', stravaSecret:'', sheetsKey:'', sheetId:'' };
 let activities = [];
 let dataSource = 'none';
 let activeFilter = 'All';
@@ -331,6 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
       cfg = {...cfg, ...JSON.parse(s)};
       document.getElementById('apiKey').value = cfg.apiKey||'';
       document.getElementById('stravaToken').value = cfg.stravaToken||'';
+      document.getElementById('stravaRefresh').value = cfg.stravaRefresh||'';
+      document.getElementById('stravaClientId').value = cfg.stravaClientId||'';
+      document.getElementById('stravaSecret').value = cfg.stravaSecret||'';
       document.getElementById('sheetsKey').value = cfg.sheetsKey||'';
       document.getElementById('sheetId').value = cfg.sheetId||'';
     }
@@ -343,10 +360,13 @@ function showConfig(){ document.getElementById('modal').classList.remove('hidden
 function hideConfig(){ document.getElementById('modal').classList.add('hidden'); }
 
 function saveConfig(){
-  cfg.apiKey      = document.getElementById('apiKey').value.trim();
-  cfg.stravaToken = document.getElementById('stravaToken').value.trim();
-  cfg.sheetsKey   = document.getElementById('sheetsKey').value.trim();
-  cfg.sheetId     = document.getElementById('sheetId').value.trim();
+  cfg.apiKey         = document.getElementById('apiKey').value.trim();
+  cfg.stravaToken    = document.getElementById('stravaToken').value.trim();
+  cfg.stravaRefresh  = document.getElementById('stravaRefresh').value.trim();
+  cfg.stravaClientId = document.getElementById('stravaClientId').value.trim();
+  cfg.stravaSecret   = document.getElementById('stravaSecret').value.trim();
+  cfg.sheetsKey      = document.getElementById('sheetsKey').value.trim();
+  cfg.sheetId        = document.getElementById('sheetId').value.trim();
   localStorage.setItem('tc_cfg', JSON.stringify(cfg));
   hideConfig();
   if (cfg.stravaToken) loadStrava();
@@ -410,10 +430,33 @@ async function loadStrava(){
   }
 }
 
+async function refreshStravaToken(){
+  const res = await fetch(`${PROXY}/strava/refresh`, {
+    method: 'POST',
+    headers: {
+      'x-strava-refresh':       cfg.stravaRefresh,
+      'x-strava-client-id':     cfg.stravaClientId,
+      'x-strava-client-secret': cfg.stravaSecret,
+    }
+  });
+  const data = await res.json();
+  if (!data.access_token) throw new Error('Token refresh failed');
+  cfg.stravaToken = data.access_token;
+  if (data.refresh_token) cfg.stravaRefresh = data.refresh_token;
+  localStorage.setItem('tc_cfg', JSON.stringify(cfg));
+  document.getElementById('stravaToken').value = cfg.stravaToken;
+}
+
 async function stravaFetch(path){
-  const res = await fetch(`${PROXY}/strava${path}`, {
+  let res = await fetch(`${PROXY}/strava${path}`, {
     headers: { 'Authorization': `Bearer ${cfg.stravaToken}` }
   });
+  if (res.status === 401 && cfg.stravaRefresh && cfg.stravaClientId && cfg.stravaSecret) {
+    await refreshStravaToken();
+    res = await fetch(`${PROXY}/strava${path}`, {
+      headers: { 'Authorization': `Bearer ${cfg.stravaToken}` }
+    });
+  }
   if (!res.ok){
     const err = await res.json().catch(()=>({}));
     throw new Error(err.message||`Strava error ${res.status}`);
