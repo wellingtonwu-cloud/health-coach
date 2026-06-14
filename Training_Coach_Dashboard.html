@@ -352,8 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('sheetId').value = cfg.sheetId||'';
     }
   } catch(e){}
-  if (!cfg.apiKey || !cfg.stravaToken) showConfig();
-  else loadStrava();
+  if (!cfg.apiKey || (!cfg.stravaToken && !cfg.stravaRefresh)) showConfig();
+  else if (cfg.stravaRefresh || cfg.stravaToken) loadStrava();
 });
 
 function showConfig(){ document.getElementById('modal').classList.remove('hidden'); }
@@ -369,12 +369,16 @@ function saveConfig(){
   cfg.sheetId        = document.getElementById('sheetId').value.trim();
   localStorage.setItem('tc_cfg', JSON.stringify(cfg));
   hideConfig();
-  if (cfg.stravaToken) loadStrava();
+  if (cfg.stravaRefresh || cfg.stravaToken) loadStrava();
 }
 
 // ── Strava via proxy ──
 async function loadStrava(){
-  if (!cfg.stravaToken){ showConfig(); return; }
+  if (!cfg.stravaToken && !cfg.stravaRefresh){ showConfig(); return; }
+  // If no access token but have refresh token, get a fresh one first
+  if (!cfg.stravaToken && cfg.stravaRefresh) {
+    try { await refreshStravaToken(); } catch(e) { setStatus('Error','busy'); addMsg('system','Token refresh failed: '+e.message); return; }
+  }
   setStatus('Pulling Strava...','strava');
   document.getElementById('mainContent').innerHTML = `
     <div class="strava-loading">
