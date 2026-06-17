@@ -163,6 +163,69 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .mbtn-primary { background:var(--orange); color:white; border-color:var(--orange); flex:2; }
 .mbtn-primary:hover { background:#c94f00; }
 .hidden { display:none !important; }
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+  body { overflow:auto; }
+
+  header { padding:0 12px; height:48px; }
+  .brand-name { font-size:14px; }
+  .brand-sub { display:none; }
+  .hbtn span, .hbtn svg { }
+  .hbtn { padding:5px 10px; font-size:12px; }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height:auto;
+    overflow:visible;
+  }
+
+  .left {
+    height:auto;
+    overflow:visible;
+    padding:12px;
+    gap:12px;
+  }
+
+  .right {
+    border-left:none;
+    border-top:1px solid var(--line);
+    height:80vh;
+    min-height:500px;
+  }
+
+  .stats-row { grid-template-columns:repeat(2,1fr); }
+  .stats-row .stat-card:last-child { grid-column: 1 / -1; }
+  .stat-val { font-size:20px; }
+
+  .sport-row { grid-template-columns:repeat(2,1fr); }
+
+  .table-head { display:none; }
+  .table-row {
+    grid-template-columns: 36px 1fr auto;
+    grid-template-rows: auto auto;
+    padding:10px 12px;
+    gap:4px;
+  }
+  .table-row > div:nth-child(3),
+  .table-row > div:nth-child(4),
+  .table-row > div:nth-child(5),
+  .table-row > div:nth-child(6),
+  .table-row > div:nth-child(7),
+  .table-row > div:nth-child(8) { display:none; }
+  .table-row > div:nth-child(9) { display:flex; justify-content:flex-end; }
+  .row-name { font-size:12px; }
+
+  .prompt-grid { grid-template-columns:1fr; }
+
+  .chart-area { height:60px; }
+
+  .modal { width:95vw; padding:18px; }
+
+  .filter-row { gap:4px; }
+  .ftab { padding:3px 10px; font-size:9px; }
+}
 </style>
 </head>
 <body>
@@ -415,7 +478,7 @@ async function loadStrava(){
       achievement_count:a.achievement_count||0,
       description:      a.description||'',
       has_power:        a.device_watts||false,
-    })).filter(a=>a.date).sort((x,y)=>new Date(y.date)-new Date(x.date));
+    })).filter(a=>a.date).sort((x,y)=>parseLocalDate(y.date)-parseLocalDate(x.date));
 
     dataSource='strava';
     renderAll();
@@ -485,7 +548,7 @@ async function loadSheet(){
       calories:parseFloat(r[11])||0, relative_effort:parseFloat(r[13])||0,
       avg_cadence:null, max_speed_mph:0, kudos:0, pr_count:0,
       achievement_count:0, description:r[17]||'', has_power:false
-    })).filter(r=>r.date).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    })).filter(r=>r.date).sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
     dataSource='sheet';
     renderAll();
     setStatus('Ready','ready');
@@ -535,7 +598,7 @@ function renderFilterTabs(){
 
 function renderStats(filtered){
   const now=new Date(),weekAgo=new Date(now-7*24*60*60*1000);
-  const week=filtered.filter(a=>new Date(a.date)>=weekAgo);
+  const week=filtered.filter(a=>parseLocalDate(a.date)>=weekAgo);
   const cycling=week.filter(a=>['Ride','GravelRide','MountainBikeRide','VirtualRide'].includes(a.sport_type));
   const outdoor=week.filter(a=>['Ride','GravelRide','MountainBikeRide'].includes(a.sport_type));
   const dist=cycling.reduce((s,a)=>s+(a.distance_mi||0),0);
@@ -577,8 +640,8 @@ function renderChart(filtered){
   const bars=chartable.map(a=>{
     const s=getSport(a.sport_type);
     const h=Math.max((a.distance_mi/maxDist)*100,5);
-    const date=new Date(a.date);
-    const label=isNaN(date)?'':`${date.getMonth()+1}/${date.getDate()}`;
+    const date=parseLocalDate(a.date);
+    const label=!a.date?'':`${date.getMonth()+1}/${date.getDate()}`;
     return `<div class="chart-bar-wrap" title="${a.name}: ${a.distance_mi.toFixed(1)}mi">
       <div class="chart-bar-inner"><div class="chart-bar" style="height:${h}%;background:${s.color};opacity:0.8"></div></div>
       <div class="chart-bar-label">${label}</div></div>`;
@@ -602,7 +665,7 @@ function renderTable(filtered){
   if(!rows.length) return `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No activities</div><div class="empty-desc">No activities match this filter.</div></div>`;
   const tableRows=rows.map(a=>{
     const s=getSport(a.sport_type);
-    const date=a.date?new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+    const date=a.date?parseLocalDate(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
     const dist=a.distance_mi>0?a.distance_mi.toFixed(1):'--';
     const dur=a.moving_time_min>0?Math.round(a.moving_time_min):'--';
     const hr=a.avg_hr?Math.round(a.avg_hr):'--';
@@ -668,6 +731,12 @@ function triggerDebrief(act){
 }
 
 // ── Context ──
+function parseLocalDate(dateStr){
+  // Parse YYYY-MM-DD as local midnight to avoid UTC day-shift bug
+  const [y,m,d] = dateStr.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+
 function buildContext(){
   if(!activities.length) return '';
   const now=new Date();
@@ -675,7 +744,7 @@ function buildContext(){
   const todayISO=now.toISOString().split('T')[0];
   const dayOfWeek=now.toLocaleDateString('en-US',{weekday:'long'});
   const weekAgo=new Date(now-7*24*60*60*1000);
-  const week=activities.filter(a=>new Date(a.date)>=weekAgo);
+  const week=activities.filter(a=>parseLocalDate(a.date)>=weekAgo);
   const sportCounts={};
   activities.forEach(a=>{sportCounts[a.sport_type]=(sportCounts[a.sport_type]||0)+1;});
 
