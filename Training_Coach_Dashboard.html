@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Training Coach</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async onload="onGISLoad()"></script>
 <style>
 :root {
   --ink: #0f0f0f; --ink2: #3d3d3d; --ink3: #8a8a8a; --ink4: #c8c8c8;
@@ -31,11 +32,59 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 .hbtn:hover { background:var(--paper); border-color:var(--line2); }
 .hbtn-strava { background:#FC4C02; color:white; border-color:#FC4C02; }
 .hbtn-strava:hover { background:#d93d00; border-color:#d93d00; }
+.hbtn-google { background:#4285F4; color:white; border-color:#4285F4; }
+.hbtn-google:hover { background:#2b6fd9; border-color:#2b6fd9; }
+.hbtn-google.connected { background:var(--green); border-color:var(--green); }
 
 .layout { display:grid; grid-template-columns:1fr 380px; height:calc(100vh - 56px); height:calc(100dvh - 56px); flex:1; min-height:0; overflow:hidden; }
-.left { overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; background:var(--paper); }
-.left::-webkit-scrollbar { width:3px; }
-.left::-webkit-scrollbar-thumb { background:var(--line2); border-radius:3px; }
+.left { overflow:hidden; display:flex; flex-direction:column; background:var(--paper); }
+.left-tabs { display:flex; gap:0; padding:0 20px; flex-shrink:0; background:var(--surface); border-bottom:1px solid var(--line); }
+.ltab { padding:12px 16px; font-family:'Geist Mono',monospace; font-size:10px; font-weight:500; cursor:pointer; border:none; background:transparent; color:var(--ink3); transition:all 0.12s; letter-spacing:0.5px; border-bottom:2px solid transparent; margin-bottom:-1px; }
+.ltab:hover { color:var(--ink2); }
+.ltab.active { color:var(--orange); border-bottom-color:var(--orange); }
+.left-panel { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; }
+.left-panel.hidden { display:none; }
+.left-panel::-webkit-scrollbar { width:3px; }
+.left-panel::-webkit-scrollbar-thumb { background:var(--line2); border-radius:3px; }
+
+/* ── Health panel ── */
+.health-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.health-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; }
+.hcard-label { font-family:'Geist Mono',monospace; font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.hcard-val { font-weight:800; font-size:22px; color:var(--ink); letter-spacing:-0.5px; line-height:1; }
+.hcard-sub { font-size:11px; color:var(--ink3); margin-top:4px; }
+.hcard-delta { font-family:'Geist Mono',monospace; font-size:10px; padding:2px 6px; border-radius:3px; margin-top:6px; display:inline-block; }
+.hcard-delta.pos { background:var(--green-pale); color:var(--green); }
+.hcard-delta.neg { background:var(--red-pale); color:var(--red); }
+.hcard-delta.neu { background:var(--paper); color:var(--ink3); border:1px solid var(--line); }
+.sleep-bars { display:flex; align-items:flex-end; gap:3px; height:80px; margin:10px 0 4px; }
+.sleep-col { flex:1; display:flex; flex-direction:column; justify-content:flex-end; height:100%; }
+.sleep-stack { width:100%; border-radius:3px 3px 0 0; overflow:hidden; display:flex; flex-direction:column-reverse; }
+.sleep-seg { width:100%; min-height:1px; }
+.sleep-lbl { font-family:'Geist Mono',monospace; font-size:8px; color:var(--ink3); text-align:center; margin-top:3px; }
+.line-chart { width:100%; height:70px; margin:8px 0; display:block; }
+.macro-row { display:flex; gap:6px; margin-top:8px; }
+.macro-pill { flex:1; background:var(--paper); border:1px solid var(--line); border-radius:var(--r-sm); padding:6px 8px; text-align:center; }
+.macro-val { font-weight:700; font-size:14px; color:var(--ink); }
+.macro-lbl { font-family:'Geist Mono',monospace; font-size:9px; color:var(--ink3); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+.cal-bar-wrap { height:5px; background:var(--paper); border-radius:3px; overflow:hidden; margin:6px 0; }
+.cal-bar { height:100%; border-radius:3px; background:var(--orange); }
+.nutrition-day { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:12px 14px; }
+.nday-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }
+.nday-date { font-family:'Geist Mono',monospace; font-size:10px; color:var(--ink3); }
+.nday-cal { font-weight:700; font-size:14px; color:var(--ink); }
+
+/* ── Analytics panel ── */
+.analytics-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; }
+.recovery-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin:12px 0 4px; }
+.rec-day { text-align:center; }
+.rec-ring { width:38px; height:38px; margin:0 auto 4px; }
+.rec-ring svg { transform:rotate(-90deg); }
+.rec-date { font-family:'Geist Mono',monospace; font-size:8px; color:var(--ink3); }
+.rec-score { font-family:'Geist Mono',monospace; font-size:9px; font-weight:600; color:var(--ink2); margin-top:2px; }
+.insight-row { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+.insight-item { background:var(--paper); border-radius:var(--r-sm); padding:10px 12px; font-size:12px; color:var(--ink2); line-height:1.5; border-left:3px solid var(--orange); }
+.ctx-tag.google-loaded { background:var(--blue-pale); color:var(--blue); border-color:#bfdbfe; }
 
 .slabel { font-family:'Geist Mono',monospace; font-size:10px; font-weight:500; color:var(--ink3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
 .slabel::after { content:''; flex:1; height:1px; background:var(--line); }
@@ -182,6 +231,7 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
   .brand-name { font-size:14px; }
   .brand-sub { display:none; }
   .hbtn { padding:5px 9px; font-size:11px; gap:3px; }
+  .hbtn .hbtn-text { display:none; }
   .date-tag { display:none; }
 
   /* Tab switcher */
@@ -194,10 +244,10 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
   }
   .mobile-tab {
     flex:1;
-    padding:10px;
+    padding:9px 4px;
     text-align:center;
     font-family:'Geist Mono',monospace;
-    font-size:11px;
+    font-size:10px;
     font-weight:500;
     color:var(--ink3);
     cursor:pointer;
@@ -220,12 +270,11 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 
   .left {
     height:100%;
-    overflow-y:auto;
-    padding:12px;
-    gap:12px;
     display:none;
   }
   .left.mobile-active { display:flex; }
+  .left-tabs { display:none; }
+  .left-panel { padding:12px; gap:12px; }
 
   .right {
     border-left:none;
@@ -233,6 +282,7 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
     display:none;
   }
   .right.mobile-active { display:flex; }
+  .health-grid { grid-template-columns:1fr; }
 
   .stats-row { grid-template-columns:repeat(2,1fr); }
   .stats-row .stat-card:last-child { grid-column:1/-1; }
@@ -286,46 +336,83 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
     <div class="date-tag" id="dateTag"></div>
     <button class="hbtn hbtn-strava" onclick="loadStrava()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Pull from Strava
+      <span class="hbtn-text">Pull from Strava</span>
+    </button>
+    <button class="hbtn hbtn-google" id="googleBtn" onclick="connectGoogle()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.908 8.908 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"/></svg>
+      <span class="hbtn-text" id="googleBtnText">Connect Health</span>
     </button>
     <button class="hbtn" onclick="loadSheet()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-      Sheet
+      <span class="hbtn-text">Sheet</span>
     </button>
     <button class="hbtn" onclick="showConfig()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-      Configure
+      <span class="hbtn-text">Configure</span>
     </button>
   </div>
 </header>
 
 <div class="mobile-tabs" id="mobileTabs">
-  <div class="mobile-tab active" onclick="switchTab('data')" id="tabData">📊 Data</div>
+  <div class="mobile-tab active" onclick="switchTab('activities')" id="tabActivities">📊 Rides</div>
+  <div class="mobile-tab" onclick="switchTab('health')" id="tabHealth">❤️ Health</div>
+  <div class="mobile-tab" onclick="switchTab('analytics')" id="tabAnalytics">📈 Insights</div>
   <div class="mobile-tab" onclick="switchTab('coach')" id="tabCoach">🤖 Coach</div>
 </div>
 
 <div class="layout">
   <div class="left mobile-active" id="leftPanel">
-    <div id="mainContent">
-      <div class="empty-state">
-        <div class="empty-icon">⚡</div>
-        <div class="empty-title">Pull your latest data</div>
-        <div class="empty-desc">Click <strong>Pull from Strava</strong> for live activity data, or <strong>Sheet</strong> for historical data.</div>
+
+    <!-- Desktop tab bar -->
+    <div class="left-tabs">
+      <button class="ltab active" data-ltab="activities" onclick="switchLeftTab('activities')">📊 Activities</button>
+      <button class="ltab" data-ltab="health" onclick="switchLeftTab('health')">❤️ Health</button>
+      <button class="ltab" data-ltab="analytics" onclick="switchLeftTab('analytics')">📈 Analytics</button>
+    </div>
+
+    <!-- Activities panel -->
+    <div class="left-panel" id="panelActivities">
+      <div id="mainContent">
+        <div class="empty-state">
+          <div class="empty-icon">⚡</div>
+          <div class="empty-title">Pull your latest data</div>
+          <div class="empty-desc">Click <strong>Pull from Strava</strong> for live activity data, or <strong>Sheet</strong> for historical data.</div>
+        </div>
+      </div>
+      <div>
+        <div class="slabel">Coaching Notes</div>
+        <div class="notes-card">
+          <div class="notes-header">
+            <span style="font-size:12px;color:var(--ink3);line-height:1.4">Personal notes, goals, injuries, race targets — visible to your AI coach every session.</span>
+            <span class="notes-save-indicator" id="notesSaveIndicator">Saved ✓</span>
+          </div>
+          <textarea class="ntextarea" id="coachingNotes"
+            placeholder="e.g. Goal: century by October. Left knee flaring up this week. Want to focus on cadence drills. Next race: MTB XC Thursday..."
+            oninput="onNotesInput()"></textarea>
+        </div>
       </div>
     </div>
 
-    <div>
-      <div class="slabel">Coaching Notes</div>
-      <div class="notes-card">
-        <div class="notes-header">
-          <span style="font-size:12px;color:var(--ink3);line-height:1.4">Personal notes, goals, injuries, race targets — visible to your AI coach every session.</span>
-          <span class="notes-save-indicator" id="notesSaveIndicator">Saved ✓</span>
-        </div>
-        <textarea class="ntextarea" id="coachingNotes"
-          placeholder="e.g. Goal: century by October. Left knee flaring up this week. Want to focus on cadence drills. Next race: MTB XC Thursday..."
-          oninput="onNotesInput()"></textarea>
+    <!-- Health panel -->
+    <div class="left-panel hidden" id="panelHealth">
+      <div class="empty-state" id="healthEmpty">
+        <div class="empty-icon">❤️</div>
+        <div class="empty-title">Connect Google Health</div>
+        <div class="empty-desc">Click <strong>Connect Health</strong> in the header to link your Google Fit data — sleep, heart rate, weight, and nutrition.</div>
       </div>
+      <div id="healthContent" class="hidden"></div>
     </div>
+
+    <!-- Analytics panel -->
+    <div class="left-panel hidden" id="panelAnalytics">
+      <div class="empty-state" id="analyticsEmpty">
+        <div class="empty-icon">📈</div>
+        <div class="empty-title">Load both data sources</div>
+        <div class="empty-desc">Pull from <strong>Strava</strong> and connect <strong>Google Health</strong> to see training + recovery correlations.</div>
+      </div>
+      <div id="analyticsContent" class="hidden"></div>
+    </div>
+
   </div>
 
   <div class="right" id="rightPanel">
@@ -408,6 +495,13 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
       <div class="mfield-hint">Leave blank if you have a refresh token — it will be auto-populated</div>
     </div>
 
+    <div class="modal-section">Google Health (Fitness API)</div>
+    <div class="mfield">
+      <label>Google OAuth Client ID</label>
+      <input type="text" id="googleClientId" placeholder="123456789-abc.apps.googleusercontent.com">
+      <div class="mfield-hint">console.cloud.google.com → APIs → Credentials → OAuth 2.0 Client ID (Web application type). Add your GitHub Pages URL as an authorized JavaScript origin.</div>
+    </div>
+
     <div class="modal-section">Google Sheet (optional)</div>
     <div class="mfield">
       <label>Google Sheets API Key</label>
@@ -430,13 +524,16 @@ header { height:56px; background:var(--surface); border-bottom:1px solid var(--l
 const PROXY = 'https://training-coach-proxy.wellingtonwu.workers.dev';
 
 // ── State ──
-let cfg = { apiKey:'', stravaToken:'', stravaRefresh:'', stravaClientId:'', stravaSecret:'', sheetsKey:'', sheetId:'' };
+let cfg = { apiKey:'', stravaToken:'', stravaRefresh:'', stravaClientId:'', stravaSecret:'', sheetsKey:'', sheetId:'', googleClientId:'', googleAccessToken:'' };
 let activities = [];
+let healthData = { sleep:[], heartRate:[], weight:[], nutrition:[] };
 let dataSource = 'none';
 let activeFilter = 'All';
+let activeLeftTab = 'activities';
 let chatHistory = [];
 let busy = false;
 let notesSaveTimer = null;
+let googleTokenClient = null;
 
 const SPORT_CONFIG = {
   Ride:             { icon:'🚴', color:'var(--orange)',  bg:'var(--orange-pale)',  label:'Road' },
@@ -476,14 +573,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('stravaSecret').value = cfg.stravaSecret||'';
       document.getElementById('sheetsKey').value = cfg.sheetsKey||'';
       document.getElementById('sheetId').value = cfg.sheetId||'';
+      document.getElementById('googleClientId').value = cfg.googleClientId||'';
     }
   } catch(e){}
-  // Load coaching notes
   const savedNotes = localStorage.getItem('tc_notes');
   if (savedNotes) document.getElementById('coachingNotes').value = savedNotes;
-
   if (!cfg.apiKey || (!cfg.stravaToken && !cfg.stravaRefresh)) showConfig();
   else if (cfg.stravaRefresh || cfg.stravaToken) loadStrava();
+  if (cfg.googleClientId && window.google && window.google.accounts) initGoogleAuth();
 });
 
 // ── Coaching Notes ──
@@ -511,9 +608,162 @@ function saveConfig(){
   cfg.stravaSecret   = document.getElementById('stravaSecret').value.trim();
   cfg.sheetsKey      = document.getElementById('sheetsKey').value.trim();
   cfg.sheetId        = document.getElementById('sheetId').value.trim();
+  cfg.googleClientId = document.getElementById('googleClientId').value.trim();
   localStorage.setItem('tc_cfg', JSON.stringify(cfg));
   hideConfig();
   if (cfg.stravaRefresh || cfg.stravaToken) loadStrava();
+  if (cfg.googleClientId) { initGoogleAuth(); }
+}
+
+// ── Google Health ──
+function onGISLoad(){
+  if (cfg.googleClientId) initGoogleAuth();
+}
+
+function initGoogleAuth(){
+  if (!window.google || !window.google.accounts) return;
+  googleTokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: cfg.googleClientId,
+    scope: [
+      'https://www.googleapis.com/auth/fitness.sleep.read',
+      'https://www.googleapis.com/auth/fitness.heart_rate.read',
+      'https://www.googleapis.com/auth/fitness.body.read',
+      'https://www.googleapis.com/auth/fitness.nutrition.read',
+    ].join(' '),
+    callback: async (resp) => {
+      if (resp.error) { addMsg('system','Google auth error: '+resp.error); return; }
+      cfg.googleAccessToken = resp.access_token;
+      localStorage.setItem('tc_cfg', JSON.stringify(cfg));
+      await loadGoogleHealth();
+    },
+  });
+  // If we already have a token, try loading health data
+  if (cfg.googleAccessToken) loadGoogleHealth();
+}
+
+function connectGoogle(){
+  if (!cfg.googleClientId){ showConfig(); return; }
+  if (!googleTokenClient){ initGoogleAuth(); }
+  if (googleTokenClient) googleTokenClient.requestAccessToken();
+}
+
+async function fitAggregate(dataTypeName, startMs, endMs, bucketMs=86400000){
+  const res = await fetch('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',{
+    method:'POST',
+    headers:{ 'Authorization':`Bearer ${cfg.googleAccessToken}`, 'Content-Type':'application/json' },
+    body: JSON.stringify({
+      aggregateBy:[{dataTypeName}],
+      bucketByTime:{durationMillis:bucketMs},
+      startTimeMillis:startMs,
+      endTimeMillis:endMs,
+    }),
+  });
+  if(res.status===401){ cfg.googleAccessToken=''; localStorage.setItem('tc_cfg',JSON.stringify(cfg)); throw new Error('Google token expired — click Connect Health to re-authenticate'); }
+  if(!res.ok) throw new Error(`Google Fit error ${res.status}`);
+  return res.json();
+}
+
+async function loadGoogleHealth(){
+  const btn = document.getElementById('googleBtn');
+  const btnText = document.getElementById('googleBtnText');
+  btnText.textContent = 'Loading…';
+  const endMs = Date.now();
+  const startMs = endMs - 30*24*60*60*1000; // 30 days
+  try {
+    const [sleepRes, hrRes, weightRes, nutritionRes] = await Promise.allSettled([
+      fitAggregate('com.google.sleep.segment', startMs, endMs),
+      fitAggregate('com.google.heart_rate.bpm', startMs, endMs),
+      fitAggregate('com.google.weight.summary', startMs, endMs),
+      fitAggregate('com.google.nutrition', startMs, endMs),
+    ]);
+
+    healthData.sleep    = parseSleep(sleepRes.status==='fulfilled' ? sleepRes.value : null);
+    healthData.heartRate= parseHR(hrRes.status==='fulfilled' ? hrRes.value : null);
+    healthData.weight   = parseWeight(weightRes.status==='fulfilled' ? weightRes.value : null);
+    healthData.nutrition= parseNutrition(nutritionRes.status==='fulfilled' ? nutritionRes.value : null);
+
+    btn.classList.add('connected');
+    btnText.textContent = 'Health ✓';
+    updateCtxTag();
+    renderHealthPanel();
+    renderAnalyticsPanel();
+    addMsg('system',`Google Health loaded — ${healthData.sleep.length} sleep records, ${healthData.heartRate.length} HR days, ${healthData.nutrition.length} nutrition days.`);
+  } catch(e){
+    btnText.textContent = 'Connect Health';
+    addMsg('system','Google Health error: '+e.message);
+  }
+}
+
+function parseSleep(data){
+  if(!data||!data.bucket) return [];
+  const days={};
+  data.bucket.forEach(b=>{
+    const date=new Date(+b.startTimeMillis).toISOString().split('T')[0];
+    if(!days[date]) days[date]={date,total:0,deep:0,rem:0,light:0,awake:0};
+    (b.dataset||[]).forEach(ds=>{
+      (ds.point||[]).forEach(p=>{
+        const type=(p.value&&p.value[0]&&p.value[0].intVal)||0;
+        const dur=(+p.endTimeNanos - +p.startTimeNanos)/1e9/3600;
+        if(type===5) days[date].deep+=dur;
+        else if(type===6) days[date].rem+=dur;
+        else if(type===4) days[date].light+=dur;
+        else if(type===1) days[date].awake+=dur;
+        days[date].total+=dur;
+      });
+    });
+  });
+  return Object.values(days).filter(d=>d.total>0.5).sort((a,b)=>a.date.localeCompare(b.date)).slice(-14);
+}
+
+function parseHR(data){
+  if(!data||!data.bucket) return [];
+  return data.bucket.map(b=>{
+    const date=new Date(+b.startTimeMillis).toISOString().split('T')[0];
+    let min=null;
+    (b.dataset||[]).forEach(ds=>{
+      (ds.point||[]).forEach(p=>{
+        (p.value||[]).forEach(v=>{ if(v.fpVal&&(min===null||v.fpVal<min)) min=v.fpVal; });
+      });
+    });
+    return min ? {date, bpm:Math.round(min)} : null;
+  }).filter(Boolean).slice(-30);
+}
+
+function parseWeight(data){
+  if(!data||!data.bucket) return [];
+  return data.bucket.map(b=>{
+    const date=new Date(+b.startTimeMillis).toISOString().split('T')[0];
+    let val=null;
+    (b.dataset||[]).forEach(ds=>{
+      (ds.point||[]).forEach(p=>{
+        if(p.value&&p.value[0]&&p.value[0].fpVal) val=p.value[0].fpVal;
+      });
+    });
+    return val ? {date, lbs:+(val*2.20462).toFixed(1)} : null;
+  }).filter(Boolean).slice(-30);
+}
+
+function parseNutrition(data){
+  if(!data||!data.bucket) return [];
+  const days={};
+  data.bucket.forEach(b=>{
+    const date=new Date(+b.startTimeMillis).toISOString().split('T')[0];
+    (b.dataset||[]).forEach(ds=>{
+      (ds.point||[]).forEach(p=>{
+        if(!days[date]) days[date]={date,calories:0,protein:0,carbs:0,fat:0};
+        (p.value||[]).forEach(v=>{
+          if(v.mapVal) v.mapVal.forEach(entry=>{
+            const k=entry.key, fv=entry.value&&entry.value.fpVal||0;
+            if(k==='calories') days[date].calories+=fv;
+            else if(k==='protein') days[date].protein+=fv;
+            else if(k==='carbs.total') days[date].carbs+=fv;
+            else if(k==='fat.total') days[date].fat+=fv;
+          });
+        });
+      });
+    });
+  });
+  return Object.values(days).filter(d=>d.calories>0).sort((a,b)=>a.date.localeCompare(b.date)).slice(-14);
 }
 
 // ── Strava via proxy ──
@@ -649,6 +899,282 @@ function updateCtxTag(){
   cs.textContent=dataSource==='strava'?'Live Strava':'Google Sheet';
   cs.className=dataSource==='strava'?'ctx-tag strava-loaded':'ctx-tag loaded';
   cs.style.display='inline-flex';
+  // Google health context tag
+  let cg=document.getElementById('ctxGoogle');
+  if(!cg){ cg=document.createElement('span'); cg.id='ctxGoogle'; document.querySelector('.ctx-row').appendChild(cg); }
+  const hasHealth=healthData.sleep.length||healthData.heartRate.length||healthData.nutrition.length;
+  cg.style.display=hasHealth?'inline-flex':'none';
+  if(hasHealth){ cg.textContent='Google Health'; cg.className='ctx-tag google-loaded'; }
+}
+
+// ── Health panel renderer ──
+function renderHealthPanel(){
+  const empty=document.getElementById('healthEmpty');
+  const content=document.getElementById('healthContent');
+  if(!healthData.sleep.length&&!healthData.heartRate.length&&!healthData.nutrition.length){
+    empty.classList.remove('hidden'); content.classList.add('hidden'); return;
+  }
+  empty.classList.add('hidden'); content.classList.remove('hidden');
+
+  const sleepHTML = healthData.sleep.length ? renderSleepChart() : '';
+  const hrHTML    = healthData.heartRate.length ? renderHRChart() : '';
+  const wtHTML    = healthData.weight.length ? renderWeightChart() : '';
+  const nutHTML   = healthData.nutrition.length ? renderNutritionLog() : '';
+
+  content.innerHTML = [sleepHTML, hrHTML, wtHTML, nutHTML].filter(Boolean).join('');
+}
+
+function renderSleepChart(){
+  const data=healthData.sleep.slice(-14);
+  const maxH=Math.max(...data.map(d=>d.total),8);
+  const bars=data.map(d=>{
+    const deepH =(d.deep /maxH)*100;
+    const remH  =(d.rem  /maxH)*100;
+    const lightH=(d.light/maxH)*100;
+    const awakeH=(d.awake/maxH)*100;
+    const dt=new Date(d.date+'T12:00:00'); const lbl=`${dt.getMonth()+1}/${dt.getDate()}`;
+    const title=`${lbl}: ${d.total.toFixed(1)}h total (Deep ${d.deep.toFixed(1)}h, REM ${d.rem.toFixed(1)}h, Light ${d.light.toFixed(1)}h)`;
+    return `<div class="sleep-col" title="${title}">
+      <div class="sleep-stack" style="height:${Math.min((d.total/maxH)*100,100)}%">
+        ${awakeH>0?`<div class="sleep-seg" style="height:${(awakeH/(awakeH+lightH+remH+deepH))*100}%;background:#fbbf24"></div>`:''}
+        ${lightH>0?`<div class="sleep-seg" style="height:${(lightH/(awakeH+lightH+remH+deepH))*100}%;background:var(--blue)"></div>`:''}
+        ${remH>0?`<div class="sleep-seg" style="height:${(remH/(awakeH+lightH+remH+deepH))*100}%;background:var(--teal)"></div>`:''}
+        ${deepH>0?`<div class="sleep-seg" style="height:${(deepH/(awakeH+lightH+remH+deepH))*100}%;background:var(--purple)"></div>`:''}
+      </div>
+      <div class="sleep-lbl">${lbl}</div>
+    </div>`;
+  }).join('');
+  const recent=data[data.length-1]||{};
+  const avg=(data.reduce((s,d)=>s+d.total,0)/data.length).toFixed(1);
+  return `<div>
+    <div class="slabel">Sleep — Last ${data.length} Nights</div>
+    <div class="health-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+        <div><div class="hcard-val">${recent.total?recent.total.toFixed(1):'--'}<span style="font-size:14px;font-weight:500;color:var(--ink3)">h</span></div><div class="hcard-sub">last night · ${avg}h avg</div></div>
+        <div style="display:flex;gap:8px;font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3)">
+          <span><span style="color:var(--purple)">■</span> Deep</span>
+          <span><span style="color:var(--teal)">■</span> REM</span>
+          <span><span style="color:var(--blue)">■</span> Light</span>
+          <span><span style="color:#fbbf24">■</span> Awake</span>
+        </div>
+      </div>
+      <div class="sleep-bars">${bars}</div>
+    </div>
+  </div>`;
+}
+
+function renderHRChart(){
+  const data=healthData.heartRate.slice(-14);
+  if(!data.length) return '';
+  const vals=data.map(d=>d.bpm);
+  const min=Math.min(...vals)-5, max=Math.max(...vals)+5, range=max-min||1;
+  const w=300, h=60, pad=4;
+  const pts=data.map((d,i)=>{
+    const x=pad+(i/(data.length-1||1))*(w-2*pad);
+    const y=h-pad-((d.bpm-min)/range)*(h-2*pad);
+    return `${x},${y}`;
+  }).join(' ');
+  const recent=data[data.length-1];
+  const avg=Math.round(vals.reduce((s,v)=>s+v,0)/vals.length);
+  const delta=recent.bpm-avg;
+  const deltaClass=delta<=0?'pos':'neg';
+  const deltaText=(delta>0?'+':'')+delta+' vs avg';
+  return `<div>
+    <div class="slabel">Resting Heart Rate</div>
+    <div class="health-grid">
+      <div class="health-card">
+        <div class="hcard-label"><span style="color:var(--red)">❤</span> Resting HR</div>
+        <div class="hcard-val">${recent.bpm}<span style="font-size:13px;color:var(--ink3);font-weight:500"> bpm</span></div>
+        <div class="hcard-sub">today · ${avg} bpm 14-day avg</div>
+        <div class="hcard-delta ${deltaClass}">${deltaText}</div>
+      </div>
+      <div class="health-card">
+        <div class="hcard-label">Trend — 14 days</div>
+        <svg class="line-chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <polyline points="${pts}" fill="none" stroke="var(--red)" stroke-width="1.5" stroke-linejoin="round"/>
+          ${data.map((d,i)=>{
+            const x=pad+(i/(data.length-1||1))*(w-2*pad);
+            const y=h-pad-((d.bpm-min)/range)*(h-2*pad);
+            return `<circle cx="${x}" cy="${y}" r="2" fill="var(--red)"/>`;
+          }).join('')}
+        </svg>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderWeightChart(){
+  const data=healthData.weight.slice(-14);
+  if(!data.length) return '';
+  const vals=data.map(d=>d.lbs);
+  const minV=Math.min(...vals)-2, maxV=Math.max(...vals)+2, range=maxV-minV||1;
+  const w=300, h=60, pad=4;
+  const pts=data.map((d,i)=>{
+    const x=pad+(i/(data.length-1||1))*(w-2*pad);
+    const y=h-pad-((d.lbs-minV)/range)*(h-2*pad);
+    return `${x},${y}`;
+  }).join(' ');
+  const recent=data[data.length-1];
+  const first=data[0];
+  const trend=recent.lbs-first.lbs;
+  const tClass=trend<=0?'pos':'neg';
+  return `<div>
+    <div class="slabel">Weight Trend</div>
+    <div class="health-grid">
+      <div class="health-card">
+        <div class="hcard-label">⚖️ Current</div>
+        <div class="hcard-val">${recent.lbs}<span style="font-size:13px;color:var(--ink3);font-weight:500"> lbs</span></div>
+        <div class="hcard-sub">last recorded</div>
+        <div class="hcard-delta ${tClass}">${trend>0?'+':''}${trend.toFixed(1)} lbs (${data.length}d)</div>
+      </div>
+      <div class="health-card">
+        <div class="hcard-label">Trend — 14 days</div>
+        <svg class="line-chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <polyline points="${pts}" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linejoin="round"/>
+          ${data.map((d,i)=>{
+            const x=pad+(i/(data.length-1||1))*(w-2*pad);
+            const y=h-pad-((d.lbs-minV)/range)*(h-2*pad);
+            return `<circle cx="${x}" cy="${y}" r="2" fill="var(--blue)"/>`;
+          }).join('')}
+        </svg>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderNutritionLog(){
+  const data=healthData.nutrition.slice(-7).reverse();
+  const cards=data.map(d=>{
+    const target=2200;
+    const pct=Math.min((d.calories/target)*100,100);
+    const dt=new Date(d.date+'T12:00:00');
+    const lbl=dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    return `<div class="nutrition-day">
+      <div class="nday-header"><span class="nday-date">${lbl}</span><span class="nday-cal">${Math.round(d.calories)} kcal</span></div>
+      <div class="cal-bar-wrap"><div class="cal-bar" style="width:${pct}%"></div></div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="macro-val">${Math.round(d.protein)}<span style="font-size:10px;color:var(--ink3)">g</span></div><div class="macro-lbl">Protein</div></div>
+        <div class="macro-pill"><div class="macro-val">${Math.round(d.carbs)}<span style="font-size:10px;color:var(--ink3)">g</span></div><div class="macro-lbl">Carbs</div></div>
+        <div class="macro-pill"><div class="macro-val">${Math.round(d.fat)}<span style="font-size:10px;color:var(--ink3)">g</span></div><div class="macro-lbl">Fat</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div><div class="slabel">Nutrition — Last 7 Days</div><div style="display:flex;flex-direction:column;gap:8px">${cards}</div></div>`;
+}
+
+// ── Analytics panel renderer ──
+function renderAnalyticsPanel(){
+  const empty=document.getElementById('analyticsEmpty');
+  const content=document.getElementById('analyticsContent');
+  const hasStrava=activities.length>0;
+  const hasHealth=healthData.sleep.length>0||healthData.heartRate.length>0;
+  if(!hasStrava||!hasHealth){ empty.classList.remove('hidden'); content.classList.add('hidden'); return; }
+  empty.classList.add('hidden'); content.classList.remove('hidden');
+  content.innerHTML = renderRecoverySection() + renderSleepTrainingCorrelation() + renderNutritionTrainingInsights();
+}
+
+function renderRecoverySection(){
+  const days=7;
+  const now=new Date();
+  const cols=[];
+  for(let i=days-1;i>=0;i--){
+    const d=new Date(now); d.setDate(d.getDate()-i);
+    const dateStr=d.toISOString().split('T')[0];
+    const sleep=healthData.sleep.find(s=>s.date===dateStr);
+    const hr=healthData.heartRate.find(h=>h.date===dateStr);
+    let score=0, count=0;
+    if(sleep){ score+=Math.min((sleep.total/8)*50,50); count++; }
+    if(hr){ const hrBase=50; score+=Math.max(0,Math.min(50,50-(hr.bpm-hrBase)*2)); count++; }
+    const finalScore=count?Math.round(score):null;
+    const color=finalScore===null?'var(--line)':finalScore>=70?'var(--green)':finalScore>=45?'#f59e0b':'var(--red)';
+    const dayLbl=d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase();
+    const r=17, circ=2*Math.PI*r;
+    const pct=finalScore!==null?finalScore/100:0;
+    cols.push(`<div class="rec-day">
+      <div class="rec-ring">
+        <svg viewBox="0 0 38 38" width="38" height="38">
+          <circle cx="19" cy="19" r="${r}" fill="none" stroke="var(--line)" stroke-width="3"/>
+          <circle cx="19" cy="19" r="${r}" fill="none" stroke="${color}" stroke-width="3"
+            stroke-dasharray="${circ*pct} ${circ*(1-pct)}" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="rec-date">${dayLbl}</div>
+      <div class="rec-score">${finalScore!==null?finalScore+'%':'–'}</div>
+    </div>`);
+  }
+  return `<div>
+    <div class="slabel">Recovery Score — Last 7 Days</div>
+    <div class="analytics-card">
+      <div style="font-size:12px;color:var(--ink3);margin-bottom:10px">Composite of sleep duration and resting heart rate. Green ≥70%, amber ≥45%.</div>
+      <div class="recovery-grid">${cols.join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderSleepTrainingCorrelation(){
+  if(!healthData.sleep.length||!activities.length) return '';
+  const hardActivities=activities.filter(a=>a.relative_effort>=50).slice(0,5);
+  if(!hardActivities.length) return '';
+  const rows=hardActivities.map(a=>{
+    const d=new Date(a.date+'T12:00:00'); d.setDate(d.getDate()-1);
+    const prevDate=d.toISOString().split('T')[0];
+    const sleep=healthData.sleep.find(s=>s.date===prevDate);
+    const s=getSport(a.sport_type);
+    const sleepVal=sleep?`${sleep.total.toFixed(1)}h`:'–';
+    const sleepColor=sleep?(sleep.total>=7?'var(--green)':sleep.total>=6?'#f59e0b':'var(--red)'):'var(--ink3)';
+    return `<div style="display:grid;grid-template-columns:28px 1fr 60px 60px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">
+      <div style="width:24px;height:24px;background:${s.bg};border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px">${s.icon}</div>
+      <div><div style="font-size:12px;font-weight:600">${a.name}</div><div style="font-family:'Geist Mono',monospace;font-size:10px;color:var(--ink3)">${a.date}</div></div>
+      <div style="font-family:'Geist Mono',monospace;font-size:11px;text-align:right;color:var(--ink3)">Effort ${a.relative_effort}</div>
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;font-weight:600;text-align:right;color:${sleepColor}">${sleepVal}</div>
+    </div>`;
+  }).join('');
+  return `<div>
+    <div class="slabel">Sleep Before Hard Efforts</div>
+    <div class="analytics-card">
+      <div style="display:grid;grid-template-columns:28px 1fr 60px 60px;gap:8px;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:2px">
+        <div></div><div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3)">ACTIVITY</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);text-align:right">EFFORT</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);text-align:right">PREV NIGHT</div>
+      </div>
+      ${rows}
+    </div>
+  </div>`;
+}
+
+function renderNutritionTrainingInsights(){
+  if(!healthData.nutrition.length||!activities.length) return '';
+  const actDates=new Set(activities.map(a=>a.date));
+  const trainingDays=healthData.nutrition.filter(n=>actDates.has(n.date));
+  const restDays=healthData.nutrition.filter(n=>!actDates.has(n.date));
+  if(!trainingDays.length||!restDays.length) return '';
+  const avg=(arr,key)=>arr.reduce((s,d)=>s+d[key],0)/arr.length;
+  const tCal=avg(trainingDays,'calories'), rCal=avg(restDays,'calories');
+  const tPro=avg(trainingDays,'protein'), rPro=avg(restDays,'protein');
+  const tCarb=avg(trainingDays,'carbs'), rCarb=avg(restDays,'carbs');
+  const fmt=v=>Math.round(v);
+  return `<div>
+    <div class="slabel">Nutrition: Training vs Rest Days</div>
+    <div class="analytics-card">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0">
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);padding:6px 0;border-bottom:1px solid var(--line)">METRIC</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);text-align:right;padding:6px 0;border-bottom:1px solid var(--line)">TRAINING</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);text-align:right;padding:6px 0;border-bottom:1px solid var(--line)">REST</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9px;color:var(--ink3);text-align:right;padding:6px 0;border-bottom:1px solid var(--line)">DIFF</div>
+        ${[
+          ['Calories',fmt(tCal),fmt(rCal),fmt(tCal-rCal),'kcal'],
+          ['Protein',fmt(tPro),fmt(rPro),fmt(tPro-rPro),'g'],
+          ['Carbs',fmt(tCarb),fmt(rCarb),fmt(tCarb-rCarb),'g'],
+        ].map(([label,tv,rv,diff,unit])=>`
+          <div style="font-size:12px;padding:7px 0;border-bottom:1px solid var(--line)">${label}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;text-align:right;padding:7px 0;border-bottom:1px solid var(--line)">${tv}${unit}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;text-align:right;padding:7px 0;border-bottom:1px solid var(--line);color:var(--ink3)">${rv}${unit}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;text-align:right;padding:7px 0;border-bottom:1px solid var(--line);color:${diff>0?'var(--green)':'var(--ink3)'}">${diff>0?'+':''}${diff}${unit}</div>
+        `).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.5">Based on ${trainingDays.length} training days and ${restDays.length} rest days with logged nutrition.</div>
+    </div>
+  </div>`;
 }
 
 // ── Render ──
@@ -884,7 +1410,15 @@ SPORT MIX: ${Object.entries(sportCounts).map(([t,c])=>`${t}:${c}`).join(', ')}
 RECENT ACTIVITIES (newest first):
 ${summary}
 
-Be direct, specific, data-driven. Reference actual numbers. Keep responses concise and actionable. Units in miles.${notes?`\n\nATHLETE'S COACHING NOTES (personal context, goals, current issues):\n${notes}`:''}`;
+Be direct, specific, data-driven. Reference actual numbers. Keep responses concise and actionable. Units in miles.${notes?`\n\nATHLETE'S COACHING NOTES (personal context, goals, current issues):\n${notes}`:''}${healthData.sleep.length||healthData.heartRate.length||healthData.nutrition.length?`
+
+HEALTH DATA (Google Fit — last available):
+${healthData.sleep.length?`SLEEP (last 7 nights): ${healthData.sleep.slice(-7).map(s=>`${s.date}: ${s.total.toFixed(1)}h total (Deep ${s.deep.toFixed(1)}h, REM ${s.rem.toFixed(1)}h, Light ${s.light.toFixed(1)}h)`).join('; ')}`:''}
+${healthData.heartRate.length?`RESTING HR (last 7 days): ${healthData.heartRate.slice(-7).map(h=>`${h.date}: ${h.bpm}bpm`).join(', ')}`:''}
+${healthData.weight.length?`WEIGHT: ${healthData.weight[healthData.weight.length-1].lbs}lbs (${healthData.weight[healthData.weight.length-1].date})`:''}
+${healthData.nutrition.length?`NUTRITION (last 3 days): ${healthData.nutrition.slice(-3).map(n=>`${n.date}: ${Math.round(n.calories)}kcal, ${Math.round(n.protein)}g protein, ${Math.round(n.carbs)}g carbs, ${Math.round(n.fat)}g fat`).join('; ')}`:''}
+
+Use this health data to inform recovery assessment and training recommendations. Low sleep or elevated resting HR should reduce recommended training intensity.`:''}`;
 
 }
 
@@ -970,22 +1504,36 @@ function scrollChat(){ const c=document.getElementById('messages'); c.scrollTop=
 function switchTab(tab){
   const left=document.getElementById('leftPanel');
   const right=document.getElementById('rightPanel');
-  const tabData=document.getElementById('tabData');
-  const tabCoach=document.getElementById('tabCoach');
-  if(tab==='data'){
-    left.classList.add('mobile-active');
-    right.classList.remove('mobile-active');
-    tabData.classList.add('active');
-    tabCoach.classList.remove('active');
-  } else {
+  const allMobileTabs=document.querySelectorAll('.mobile-tab');
+  allMobileTabs.forEach(t=>t.classList.remove('active'));
+  if(tab==='coach'){
     right.classList.add('mobile-active');
     left.classList.remove('mobile-active');
-    tabCoach.classList.add('active');
-    tabData.classList.remove('active');
+    document.getElementById('tabCoach').classList.add('active');
+  } else {
+    left.classList.add('mobile-active');
+    right.classList.remove('mobile-active');
+    const tabEl=document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1));
+    if(tabEl) tabEl.classList.add('active');
+    // Show correct left panel
+    showLeftPanel(tab);
   }
 }
 
-// Auto-switch to coach tab after Strava loads on mobile
+function switchLeftTab(tab){
+  activeLeftTab=tab;
+  document.querySelectorAll('.ltab').forEach(t=>t.classList.toggle('active',t.dataset.ltab===tab));
+  showLeftPanel(tab);
+}
+
+function showLeftPanel(tab){
+  const panels={activities:'panelActivities',health:'panelHealth',analytics:'panelAnalytics'};
+  Object.entries(panels).forEach(([key,id])=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('hidden', key!==tab);
+  });
+}
+
 function switchToCoachOnMobile(){
   if(window.innerWidth<=768) switchTab('coach');
 }
